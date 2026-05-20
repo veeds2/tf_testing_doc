@@ -1,40 +1,231 @@
 ---
-title: Quickstart
-sidebarTitle: Quickstart
-description: Get your workspace configured and your team invited in under 20 minutes.
+title: "Quickstart"
+description: "Welcome to TestFactors — your AI co-pilot for HR system testing. Everything you need to feel confident in your first 30 minutes."
+icon: "rocket"
 ---
 
-This guide walks you through the essential setup steps—from creating your organization to inviting teammates and launching your first project. Most teams finish in under 20 minutes.
+<Note>
+**New here?** This page is written for HR analysts, HRIS specialists, business analysts, and testers — not engineers. No technical background required.
+</Note>
 
-## Before you begin
+## What is TestFactors?
 
-- Admin credentials for your organization's identity provider if you plan to enable SSO
-- A list of teammates to invite (names and email addresses)
-- Basic decisions made: workspace name, default timezone, and whether projects are private by default
+TestFactors helps your team **test HR system changes faster and with less risk** — especially in SAP SuccessFactors Employee Central. Instead of writing test cases by hand from spec workbooks, you upload your workbook and our AI assistant drafts the scenarios, test cases, and test scripts for you. You stay in control: review, edit, approve, execute.
 
-## Steps
+Think of it as the difference between writing 200 test cases from scratch versus reviewing 200 drafts an assistant prepared for you.
+
+<CardGroup cols={2}>
+  <Card title="What you upload" icon="file-arrow-up">
+    Your HR specification or configuration workbooks (e.g. Foundation Objects, Position Management, Employee Data).
+  </Card>
+  <Card title="What you get back" icon="sparkles">
+    Auto-generated scenarios, test cases, scripts, and defect drafts — ready for your review.
+  </Card>
+</CardGroup>
+
+---
+
+## Who's who: understanding your role
+
+Your role decides what you can see and do. If a button is missing, it's almost always a role thing — ask your workspace **Owner** or **Admin** to adjust your access.
+
+| Role | What they typically do |
+|---|---|
+| **Owner** | Sets up the workspace, invites people, manages billing and settings. Usually one person per organization. |
+| **Admin** | Manages projects, members, and templates. Can do almost everything an Owner can, except billing. |
+| **Member** | Day-to-day work: uploads workbooks, reviews AI drafts, runs tests, logs defects. This is most users. |
+| **Viewer** | Read-only access. Great for stakeholders who want visibility without editing. |
+
+<Tip>
+Not sure what role you have? Click your avatar in the top-right corner — your role is shown under your name.
+</Tip>
+
+---
+
+## Your first 15 minutes
 
 <Steps>
-  <Step title="Create your organization">
-    Sign in and follow the setup prompt to create a new organization. Choose a name your team will recognize in notifications—avoid internal codenames if external collaborators might see it.
+  <Step title="Sign in">
+    Go to your TestFactors workspace URL (your admin sent it to you). Sign in with the email your admin invited.
+
+    <Check>
+      You should land on the **Projects** screen. If you see "No projects yet," that's normal — you're about to fix that.
+    </Check>
   </Step>
-  <Step title="Configure general settings">
-    Navigate to **Settings → General** and set your workspace name, timezone, and display preferences. These defaults apply to all new members and projects.
+
+  <Step title="Open or create a project">
+    A **project** is a container for everything related to one piece of work — for example *"Q2 2026 EC Foundation Objects Release"* or *"New Hire Process Redesign."*
+
+    - If your admin already created a project for you, click it.
+    - If not, click **+ New Project**, give it a clear name (mention the release or change), and pick the right organization.
   </Step>
-  <Step title="Invite teammates">
-    Go to **Settings → Users** and invite teammates by email. Assign each person a role—Admin, Member, or Viewer—based on their responsibilities. Start with a small pilot group before rolling out widely.
+
+  <Step title="Upload your first workbook">
+    Inside your project, click **Workbooks → Upload**. Drop in your `.xlsx` file (Foundation Objects, Position Management, Employee Data, EC Transactions — all supported).
+
+    TestFactors will read the workbook and tell you:
+
+    - Which sheets it understood
+    - Which columns are required vs optional
+    - Any fields it wants you to clarify
+
+    <Note>
+      This usually takes 30 seconds to 2 minutes depending on workbook size. You can keep working — you'll get a notification when it's ready.
+    </Note>
   </Step>
-  <Step title="Set up your first project">
-    Create a project from the main dashboard. Give it a clear name and description, then add initial members. Use this first project as a sandbox before standardizing your project template.
+
+  <Step title="Let the AI draft your scenarios">
+    Once the workbook is processed, click **Generate Scenarios**. The AI assistant reads the workbook and proposes test scenarios grouped into categories like *Hire*, *Rehire*, *Job Change*, *Termination*, etc.
+
+    You'll see a chat panel on the right — you can refine the output in plain English:
+
+    > *"Add more edge cases for international transfers"*
+    >
+    > *"Skip the termination scenarios for now"*
+    >
+    > *"Group these by country instead"*
+  </Step>
+
+  <Step title="Review, approve, and you're off">
+    Walk through the AI's draft scenarios. For each one you can:
+
+    - **Approve** → it moves into your test library
+    - **Edit** → tweak the wording or steps
+    - **Reject** → discard it (with optional feedback that trains the AI)
+
+    Approved scenarios become **test cases**, test cases become **test scripts**, and you're ready to execute.
   </Step>
 </Steps>
 
+<Check>
+**You did it.** You just went from a spec workbook to a reviewed test library in minutes instead of days.
+</Check>
+
+---
+
+## The big picture: how everything connects
+
+TestFactors follows the natural HR testing workflow. Each module hands off cleanly to the next:
+
+<Steps>
+  <Step title="Workbook">
+    Your source of truth — the spec or config document.
+  </Step>
+  <Step title="Scenarios">
+    What we want to test (e.g. *"Hire a US employee into an active position"*).
+  </Step>
+  <Step title="Test Cases">
+    Specific situations within a scenario (e.g. *"Hire a salaried US employee with stock eligibility"*).
+  </Step>
+  <Step title="Test Scripts">
+    Step-by-step instructions a tester (or automation) can follow.
+  </Step>
+  <Step title="Execution">
+    Running the scripts and recording pass/fail.
+  </Step>
+  <Step title="Defects">
+    Anything that failed — AI helps draft a clear defect report with reproduction steps.
+  </Step>
+  <Step title="Knowledge & Feedback">
+    Lessons learned feed back into the AI so the next project starts smarter.
+  </Step>
+</Steps>
+
+<Tip>
+You don't have to use every module. Many teams start with just **Workbooks → Scenarios → Test Cases** and adopt the rest over time.
+</Tip>
+
+---
+
+## Common questions
+
+<AccordionGroup>
+  <Accordion title="Will the AI replace my judgment?" icon="brain">
+    No. TestFactors drafts — **you decide**. Nothing the AI produces goes live until a human approves it. Your domain expertise is exactly what makes the output good; the AI just saves you the typing.
+  </Accordion>
+
+  <Accordion title="Is my data safe?" icon="shield-check">
+    Yes. Your workbooks and test data live inside your organization's workspace. Other organizations can't see your data. Talk to your Admin if you need details on data residency, retention, or our security posture.
+  </Accordion>
+
+  <Accordion title="What file types can I upload?" icon="file">
+    Excel workbooks (`.xlsx`) are the primary format. CSV exports are also supported for some flows (e.g. import templates, employee data extracts).
+  </Accordion>
+
+  <Accordion title="I uploaded a workbook but nothing happened." icon="circle-question">
+    Three things to check:
+
+    1. Is the file `.xlsx` (not `.xls` or a Google Sheet export)?
+    2. Is it under 50 MB? Larger files need to be split.
+    3. Does it have at least one sheet with column headers in row 1?
+
+    If all three look right and it's still stuck, ping your Admin or open the in-app chat.
+  </Accordion>
+
+  <Accordion title="Can I undo something the AI did?" icon="rotate-left">
+    Yes. Generated items live in a **Proposed** state until you approve them. Reject or delete them with no consequence. Approved items can be edited or archived at any time.
+  </Accordion>
+
+  <Accordion title="Why can't I see a button or page my colleague can see?" icon="lock">
+    It's a permissions thing — your role doesn't include that action. Ask your **Owner** or **Admin** to update your role or grant the specific permission you need.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Where to go next
+
+Pick the module you're working in today. Each guide is short, plain-English, and screenshot-driven.
+
+<CardGroup cols={2}>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    Upload spec workbooks, understand how TestFactors reads them, manage versions.
+  </Card>
+  <Card title="Scenarios & Categories" icon="sitemap" href="/platform/scenarios-and-categories">
+    Organize what you're testing. Generate scenarios with the AI assistant.
+  </Card>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Review, edit, and approve AI-drafted test cases.
+  </Card>
+  <Card title="Test Scripts" icon="scroll-text" href="/platform/test-scripts">
+    Step-by-step scripts your team (or automation) can run.
+  </Card>
+  <Card title="Test Execution" icon="play" href="/platform/test-execution">
+    Run scripts, record results, track progress in real time.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Log issues with AI-drafted reproduction steps. Triage and resolve.
+  </Card>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Capture institutional knowledge so the AI gets smarter with every release.
+  </Card>
+  <Card title="Memberships & Access" icon="users" href="/admin/memberships-and-access">
+    Invite teammates, manage roles, and control who can do what.
+  </Card>
+  <Card title="Settings" icon="settings" href="/admin/settings">
+    Tune your workspace, organization, and project preferences.
+  </Card>
+  <Card title="FactorBot (AI Chat)" icon="messages-square" href="/knowledge-ai/factorbot">
+    Ask the AI anything about your project — it knows your workbooks and history.
+  </Card>
+</CardGroup>
+
+---
+
+## Need help?
+
+<CardGroup cols={3}>
+  <Card title="Search the docs" icon="search">
+    Use the search bar at the top — it covers every guide on this site.
+  </Card>
+  <Card title="Ask FactorBot" icon="bot">
+    The chat icon inside the app can answer most "how do I…" questions in seconds.
+  </Card>
+  <Card title="Contact your Admin" icon="headset">
+    For access, billing, or organization-specific questions, your workspace Admin is the fastest path.
+  </Card>
+</CardGroup>
+
 <Note>
-  If any setup step depends on IT (DNS changes, SSO metadata, firewall rules), proceed with the other steps in parallel so you don't lose time.
+**Was this page helpful?** Use the feedback widget at the bottom — your votes tell us which guides to improve next.
 </Note>
-
-## Next steps
-
-- Review [key concepts](/platform/key-concepts) to understand workspaces, projects, roles, and API access.
-- Explore [general settings](/platform/configuration/settings) to fine-tune defaults.
-- Set up [roles and permissions](/platform/administration/roles-permissions) before onboarding a larger team.

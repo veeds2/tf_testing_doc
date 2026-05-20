@@ -1,12 +1,12 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "almond",
-  "name": "Product Guide",
-  "description": "Step-by-step guides for every product—platform setup, analytics, and integrations in one place.",
+  "name": "TestFactors",
+  "description": "Friendly HR user guides for TestFactors — AI-powered testing for HR systems (SAP SuccessFactors Employee Central).",
   "colors": {
-    "primary": "#166E3F",
-    "light": "#26BD6C",
-    "dark": "#166E3F"
+    "primary": "#2563EB",
+    "light": "#60A5FA",
+    "dark": "#1E40AF"
   },
   "favicon": "/favicon.ico",
   "icons": {
@@ -16,7 +16,7 @@
     "eyebrows": "breadcrumbs"
   },
   "contextual": {
-    "options": ["copy", "view", "assistant", "mcp", "add-mcp"]
+    "options": ["copy", "view", "assistant"]
   },
   "navigation": {
     "global": {
@@ -27,51 +27,44 @@
           "href": "/"
         },
         {
-          "anchor": "Changelog",
-          "icon": "scroll-text",
-          "href": "https://www.mintlify.com/docs/changelog"
-        },
-        {
-          "anchor": "Help",
+          "anchor": "Support",
           "icon": "life-buoy",
-          "href": "https://www.mintlify.com/docs/contact-support"
+          "href": "mailto:support@testfactors.com"
         }
       ]
     },
     "directory": "card",
     "groups": [
       {
-        "group": "Platform",
+        "group": "Core Workflow",
         "icon": "layers",
         "expanded": true,
         "pages": [
           "platform/quickstart",
-          "platform/key-concepts",
-          "platform/configuration/settings",
-          "platform/configuration/user-management",
-          "platform/administration/roles-permissions"
+          "platform/workbooks",
+          "platform/scenarios-and-categories",
+          "platform/test-cases",
+          "platform/test-scripts",
+          "platform/test-execution",
+          "platform/defects"
         ]
       },
       {
-        "group": "Analytics",
-        "icon": "chart-bar",
+        "group": "Knowledge & AI",
+        "icon": "brain-circuit",
         "expanded": true,
         "pages": [
-          "analytics/quickstart",
-          "analytics/connect-data",
-          "analytics/dashboards/create-dashboard",
-          "analytics/reports/scheduled-reports"
+          "knowledge-ai/factorbot",
+          "knowledge-ai/knowledge-wiki"
         ]
       },
       {
-        "group": "Integrations",
-        "icon": "plug",
+        "group": "Admin",
+        "icon": "shield-check",
         "expanded": true,
         "pages": [
-          "integrations/quickstart",
-          "integrations/authentication",
-          "integrations/connectors/crm",
-          "integrations/webhooks/configure"
+          "admin/memberships-and-access",
+          "admin/settings"
         ]
       }
     ]
@@ -84,14 +77,20 @@
     "links": [],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Sign in",
+      "href": "https://auth.testfactors.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/yourcompany",
-      "linkedin": "https://linkedin.com/company/yourcompany"
+      "website": "https://testfactors.com"
     }
+  },
+  "search": {
+    "prompt": "Search the user guide..."
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true
   }
 }
