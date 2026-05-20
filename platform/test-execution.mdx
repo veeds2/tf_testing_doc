@@ -1,33 +1,297 @@
 ---
 title: "Test Execution"
-description: "Run your scripts, record pass/fail results in real time, and log defects without leaving the flow."
+description: "Run your scripts, record pass/fail in real time, and log defects without breaking your flow."
 icon: "play"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**This is where the work actually happens.** Test Execution is designed to keep you in flow — minimal clicks, real-time progress for your team, and one-click defect logging without leaving the script.
 </Note>
 
 ## What this module does
 
-_To be written._
+A **test execution** is a single run of a test script against the SuccessFactors environment. You step through the script, record what happened at each step, and the execution captures:
 
-## Who uses it
+- **Pass / Fail / Blocked / Skip** status per step
+- **Actual results** (what really happened, if different from expected)
+- **Attachments** (screenshots, logs, screen recordings)
+- **Defects** linked back to the failing step
+- **Timing** (auto-tracked)
+- **Tester notes**
 
-_To be written._
+Your **Project Manager** sees aggregate progress in real time — no daily standup needed.
+
+---
+
+## Who uses this module
+
+| Role | Execute | Re-execute | Review results | Assign executions |
+|---|---|---|---|---|
+| **Tester** | Yes (assigned) | Yes (own) | Own | No |
+| **Test Coordinator** | Yes | Yes | All | Yes |
+| **Test Manager** | Yes | Yes | All | Yes |
+| **Project Manager** | Yes | Yes | All | Yes |
+| **Module Process Owner** | Yes | Limited | Module-scoped | No |
+| **Developer** | Yes (defect verification) | Limited | Yes | No |
+| **Viewer** | No | No | Yes (read-only) | No |
+
+---
 
 ## Before you start
 
-_To be written._
+You need:
 
-## Step-by-step
+- **Active scripts** in your project. See [Test Scripts](/platform/test-scripts).
+- **A test cycle** — the container for this round of execution (e.g. *"Q2 2026 UAT"*, *"Smoke Test — Sandbox Refresh"*).
+- **Assignments** — the Test Coordinator assigns scripts to testers. If you don't see any assignments, ask your Coordinator to assign you.
 
-_To be written._
+---
+
+## Step-by-step: execute a test script
+
+<Steps>
+  <Step title="Open the Executions tab">
+    From your project's left sidebar, click **Executions**. You see all test executions in the active cycle.
+
+    Switch to **My Executions** to filter to just what's assigned to you.
+
+    <Frame caption="Executions tab with My Executions filter active showing 7 scripts assigned to current user.">
+      ![Executions tab](/images/test-execution/01-executions-tab.png)
+    </Frame>
+  </Step>
+
+  <Step title="Pick a script">
+    Click any script row. The **Execution view** opens — a focused, distraction-free layout.
+
+    Top of the view:
+    - **Script title and metadata** (scenario, test case, SF module)
+    - **Progress bar** (steps completed / total)
+    - **Status** (In Progress / Completed)
+
+    <Frame caption="Execution view opening on Step 1 of 8 with the script header at top and step content below.">
+      ![Execution view](/images/test-execution/02-execution-view.png)
+    </Frame>
+  </Step>
+
+  <Step title="Step through the script">
+    For each step:
+
+    1. **Read the action** ("Open the Hire Wizard from People → Add New")
+    2. **Read the test data** (a table with the values to enter)
+    3. **Read the expected result** ("Wizard advances to Step 2")
+    4. **Do it in SuccessFactors** (separate window)
+    5. **Record what happened** — click **Pass**, **Fail**, **Blocked**, or **Skip**
+
+    <Frame caption="A single execution step showing action, test data table, expected result, and the four status buttons.">
+      ![Single step](/images/test-execution/03-step-detail.png)
+    </Frame>
+  </Step>
+
+  <Step title="Add notes or screenshots (optional but encouraged)">
+    For any step you can:
+
+    - Type a **note** ("Wizard took 6 seconds to load — slow but functional")
+    - **Drag-and-drop screenshots** into the step
+    - **Record your screen** with the built-in capture button (great for "It worked but looked weird")
+
+    <Frame caption="Step with two screenshots attached and a note describing slow load time.">
+      ![Step with attachments](/images/test-execution/04-attachments.png)
+    </Frame>
+
+    <Tip>
+      Even passing steps benefit from one screenshot at a key moment — it's evidence for audit and a baseline for future regression.
+    </Tip>
+  </Step>
+
+  <Step title="If a step fails, log a defect immediately">
+    Click **Fail** on a step. A defect form slides in from the right, pre-filled with:
+
+    - **Title** — drafted from the step's expected vs actual
+    - **Reproduction steps** — auto-populated from all steps in this script up to and including the failed step
+    - **Test data** — copied from the failed step
+    - **Severity** — defaulted to *Medium*; adjust as needed
+    - **Screenshots** — anything you attached to this step
+
+    Add the **actual result** ("Wizard error: 'Position is required' but Position was filled in") and click **Log defect**.
+
+    The defect is created, linked to this execution and step, and assigned per your project's defect routing rules.
+
+    <Frame caption="Defect form sliding in from the right with auto-populated fields after clicking Fail.">
+      ![Defect form](/images/test-execution/05-defect-form.png)
+    </Frame>
+
+    <Note>
+      Logging defects in-line saves an enormous amount of time compared to "I'll log them all at the end." If you wait, you forget context. **Log it the moment it fails.**
+    </Note>
+  </Step>
+
+  <Step title="Continue or stop">
+    After each step is recorded, the next step loads automatically. You can:
+
+    - **Continue** through all remaining steps
+    - **Mark the rest as Blocked** if a critical failure prevents further testing
+    - **Pause** — save your progress and come back later (your status is preserved)
+
+    <Frame caption="Execution view at step 5 of 8 with the 'Mark remaining as Blocked' option in the dropdown.">
+      ![Mark blocked](/images/test-execution/06-mark-blocked.png)
+    </Frame>
+  </Step>
+
+  <Step title="Complete the execution">
+    When the last step is recorded, the script's execution moves to **Completed**. You'll see a summary:
+
+    - Steps passed / failed / blocked / skipped
+    - Time elapsed
+    - Defects logged
+    - Attachments uploaded
+
+    <Frame caption="Execution summary screen with metric tiles and a 'Move to next script' button.">
+      ![Execution summary](/images/test-execution/07-summary.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**Done.** Your manager sees the result instantly on the cycle dashboard. Move to the next assigned script or take a break.
+</Check>
+
+---
+
+## Watching the cycle in real time (Coordinators / Managers)
+
+While testers execute, the **Cycle Dashboard** updates live:
+
+- Progress bar per script (Not Started / In Progress / Completed)
+- Pass rate per scenario, category, and SF module
+- Defect count by severity (with one-click drill-in)
+- Tester-by-tester progress and velocity
+- Blocker queue (executions stuck on "Blocked" status)
+
+<Frame caption="Cycle Dashboard with progress charts, defect counts by severity, and tester velocity tiles.">
+  ![Cycle dashboard](/images/test-execution/08-dashboard.png)
+</Frame>
+
+No status meetings required — the dashboard *is* the status meeting.
+
+---
+
+## Re-executing a failed script after a fix
+
+<Steps>
+  <Step title="Wait for the defect to be marked Resolved">
+    The developer fixes the issue in SF and updates the defect status. You'll see a notification.
+  </Step>
+  <Step title="Open the original execution">
+    Click the execution row in the Executions tab.
+  </Step>
+  <Step title="Click 'New Execution'">
+    The top-right has a **+ New Execution** button. Click it. A fresh execution is created (version 2) linked to the same script and test case.
+
+    Your previous execution stays intact for history.
+
+    <Frame caption="Execution detail header with 'New Execution' button creating version 2.">
+      ![New execution version](/images/test-execution/09-new-execution.png)
+    </Frame>
+  </Step>
+  <Step title="Run through the failed steps">
+    You can either re-run the full script (recommended for confidence) or jump straight to the failed steps from before.
+  </Step>
+</Steps>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Log defects inline, always" icon="bug">
+    Don't batch defect logging "for after." Context is lost and your defect descriptions get vague. Inline = better defects = faster fixes.
+  </Card>
+  <Card title="Use the pause feature for interruptions" icon="pause">
+    Mid-script meeting? Pause. Your progress is saved exactly where you left off, attachments included.
+  </Card>
+  <Card title="Capture screenshots even on Pass" icon="camera">
+    One screenshot at the most important moment of each script. Future you (regression-testing the same flow) will thank present you.
+  </Card>
+  <Card title="Don't skip steps you 'know will pass'" icon="forward">
+    Skipping creates audit gaps. Mark as Pass with a one-line note instead.
+  </Card>
+  <Card title="Use Blocked sparingly" icon="ban">
+    Blocked = you literally cannot proceed. If you can work around it, mark Fail + log defect and continue testing the rest of the script.
+  </Card>
+  <Card title="Update your status visibly" icon="bell">
+    If you're stuck waiting on a defect fix, change your assignment status to "Waiting" so your Coordinator can reassign you.
+  </Card>
+</CardGroup>
+
+---
+
+## Execution states
+
+| State | Meaning |
+|---|---|
+| **Not Started** | Script is assigned but you haven't opened it yet |
+| **In Progress** | You've recorded at least one step |
+| **Paused** | You explicitly paused; resume any time |
+| **Completed — Pass** | All steps passed or skipped (no fails, no blocks) |
+| **Completed — Fail** | At least one step failed |
+| **Completed — Blocked** | Marked Blocked before finishing |
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="I don't see any scripts assigned to me" icon="user-question">
+    Three possibilities:
+    1. **The Coordinator hasn't assigned scripts yet** — message them
+    2. **Filter is on 'My Executions' and the cycle is new** — switch to *"All Executions"* to see the full pool
+    3. **You're in the wrong cycle** — check the cycle dropdown at the top
+  </Accordion>
+
+  <Accordion title="I clicked Pass by mistake on a failed step" icon="rotate-left">
+    Each step has a small undo button next to the status badge. Click **Edit step result** to change Pass → Fail. The defect form will appear.
+  </Accordion>
+
+  <Accordion title="My screenshot won't attach" icon="image">
+    Limits and tips:
+    - Max file size: 25 MB per attachment
+    - Accepted formats: PNG, JPG, GIF, MP4, WEBM
+    - If drag-and-drop fails, use the **Upload** button instead
+    - If still failing, save the screenshot to your desktop first, then upload — sometimes copy-paste from the clipboard gets garbled
+  </Accordion>
+
+  <Accordion title="The execution view crashed mid-script" icon="bug">
+    Refresh the page. Your progress is auto-saved every 5 seconds — you'll be back on the exact step you were on, with your in-progress note and attachments preserved.
+  </Accordion>
+
+  <Accordion title="I need to re-run a single failed step, not the whole script" icon="rotate-right">
+    Open the completed execution → step detail → **Re-run this step**. Records a new result for just that step without invalidating the rest.
+  </Accordion>
+
+  <Accordion title="My defect form is missing the SF module field" icon="circle-question">
+    The defect form pulls SF module from the script's test case. If the test case doesn't have an SF module tag, the form falls back to project default. Fix: ask your Test Coordinator to tag the test case.
+  </Accordion>
+
+  <Accordion title="I want to add a note to the cycle (not a specific step)" icon="note-sticky">
+    In the Executions tab → cycle dropdown → **Cycle notes**. Notes here are visible to the whole project team and are great for "Sandbox refresh happened at 2pm — re-test affected scripts."
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Test Scripts" icon="scroll-text" href="/platform/test-scripts">
+    Execution runs scripts — make sure they're up to date before a cycle starts.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Defects logged inline during execution flow through to this module for triage and tracking.
+  </Card>
+  <Card title="Memberships & Access" icon="users" href="/admin/memberships-and-access">
+    Get the right people invited with the right roles so assignments work cleanly.
+  </Card>
+  <Card title="Settings" icon="settings" href="/admin/settings">
+    Configure defect routing rules and cycle templates per project.
+  </Card>
+</CardGroup>

@@ -1,33 +1,276 @@
 ---
 title: "Test Cases"
-description: "Review, edit, and approve AI-drafted test cases — the specific situations within each scenario."
+description: "Review, edit, and approve the AI's draft test cases — the specific situations within each scenario that need to be verified."
 icon: "list-checks"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**Test cases are where 'what we want to test' becomes 'exactly what we'll verify.'** This is the layer that catches the edge cases that scenarios are too broad to cover.
 </Note>
 
 ## What this module does
 
-_To be written._
+A **scenario** is broad ("Hire a US employee into an active position"). A **test case** is a specific instance of that scenario with concrete data:
 
-## Who uses it
+> *Scenario:* Hire a US employee into an active position
+>
+> *Test case 1:* Hire a salaried US employee, exempt, with stock eligibility, into an existing active position in the Engineering department.
+>
+> *Test case 2:* Hire an hourly US employee, non-exempt, no stock, into a position requiring background check.
+>
+> *Test case 3:* Hire a US employee into a position with future-dated start date (Q3 next year).
 
-_To be written._
+TestFactors generates test cases from your scenarios using:
+
+1. **Workbook data** — every field in your spec that affects the scenario becomes a variable.
+2. **Picklist values** — every option in a relevant picklist becomes a variant.
+3. **Edge case patterns** — null values, max-length strings, boundary dates, special characters.
+4. **Your knowledge wiki** — any custom rules or constraints you've documented.
+
+You stay in control: every AI-generated test case sits in a **Proposed** state until you approve, edit, or reject it.
+
+---
+
+## Who uses this module
+
+| Role | Generate | Approve / Promote | Edit | Reject |
+|---|---|---|---|---|
+| **Test Manager / Project Manager** | Yes | Yes | Yes | Yes |
+| **Test Coordinator / Module Process Owner** | Yes | Yes | Yes | Yes |
+| **Tester** | Yes (own) | No | Limited | Yes |
+| **Developer** | Yes (own) | No | Yes | Yes |
+| **Viewer** | No | No | No | No |
+
+<Tip>
+Testers can propose test cases and reject AI output, but only Test Coordinator+ can *promote* a proposed test case to active. This keeps the active test library curated.
+</Tip>
+
+---
 
 ## Before you start
 
-_To be written._
+You need:
 
-## Step-by-step
+- **At least one approved scenario** in this project. See [Scenarios & Categories](/platform/scenarios-and-categories).
+- **A test cycle selected.** Test cases are generated per cycle, just like scenarios.
 
-_To be written._
+---
+
+## Step-by-step: generate and review test cases
+
+<Steps>
+  <Step title="Open a scenario">
+    From the Scenarios tab, click any active scenario. You land on the **Scenario detail view** with a list of its test cases (empty on first open).
+
+    <Frame caption="Scenario detail page with an empty test cases section and a 'Generate Test Cases' call-to-action.">
+      ![Scenario detail empty](/images/test-cases/01-scenario-detail.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click Generate Test Cases">
+    Click the primary **Generate Test Cases** button. The AI starts analyzing the scenario plus the underlying workbook data.
+
+    A progress banner appears: *"AI is drafting test cases…"*
+
+    <Frame caption="Generation in progress with progress banner and the first few proposed test cases starting to appear.">
+      ![Test case generation in progress](/images/test-cases/02-generating.png)
+    </Frame>
+  </Step>
+
+  <Step title="Wait for proposals">
+    Generation usually takes 15–30 seconds depending on scenario complexity. You'll see between 3 and 25 proposed test cases per scenario.
+
+    Each proposal arrives with:
+    - A **clear title** ("Hire salaried exempt US employee with stock")
+    - **Preconditions** ("Position must be Active, requisition approved")
+    - **Test steps** (numbered actions)
+    - **Expected results** (one per step)
+    - **Test data** (the specific values to use)
+
+    <Frame caption="Test cases list showing 12 proposed cases in 'Proposed' state with a Review badge on each.">
+      ![Proposed test cases list](/images/test-cases/03-proposed-list.png)
+    </Frame>
+  </Step>
+
+  <Step title="Open a proposal and review">
+    Click any proposed test case to open the detail panel. You'll see the full structure: title, description, preconditions, steps with expected results, test data, and AI rationale ("Why did the AI propose this?").
+
+    <Frame caption="Test case detail panel with steps, expected results, test data, and AI rationale visible.">
+      ![Test case detail](/images/test-cases/04-test-case-detail.png)
+    </Frame>
+  </Step>
+
+  <Step title="Approve, edit, or reject">
+    Each proposal has three primary actions in the top-right:
+
+    - **Approve** — promotes the proposed test case to **Active** in your test library
+    - **Edit** — open inline editor to tweak title, steps, expected results, or test data, then approve
+    - **Reject** — discards the proposal. Optionally add a one-line reason that trains the AI for next time
+
+    <Frame caption="Test case action bar showing Approve, Edit, Reject buttons and the 'Approval feedback' field.">
+      ![Test case action bar](/images/test-cases/05-action-bar.png)
+    </Frame>
+
+    <Tip>
+      **Don't edit unless you must.** If the AI's title or steps are close-enough, approve as-is — you can always refine later. Most teams approve 70–80% of proposals without changes.
+    </Tip>
+  </Step>
+
+  <Step title="Bulk approve when you're confident">
+    For tight scenarios with consistent quality proposals, use **Bulk Approve**: select multiple proposals with the checkboxes and click **Approve selected**.
+
+    <Frame caption="Test cases list with 5 checkboxes ticked and the 'Approve selected (5)' bulk action visible.">
+      ![Bulk approve](/images/test-cases/06-bulk-approve.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**You're done.** Approved test cases are now in your test library. The next step is generating **test scripts** — step-by-step instructions a tester can follow. See [Test Scripts](/platform/test-scripts).
+</Check>
+
+---
+
+## Refining proposals with chat
+
+Like every AI surface in TestFactors, test case generation has a chat panel. After the first batch of proposals lands, try:
+
+> *"Add 3 more negative test cases focused on validation failures"*
+>
+> *"The data values are too generic — use actual values from our workbook for the Job Code field"*
+>
+> *"Split the long test case in step 4 into two smaller cases"*
+>
+> *"Make the test data more realistic — use real-looking US names and SSN-style IDs"*
+
+<Frame caption="Chat panel open beside the test cases list with a user request and the AI's proposed changes highlighted.">
+  ![Refinement chat](/images/test-cases/07-refinement-chat.png)
+</Frame>
+
+The AI's revised proposals appear as new "Proposed" rows. Your previously approved test cases are never touched.
+
+---
+
+## Editing a test case
+
+<Steps>
+  <Step title="Open the test case">
+    Click any test case (proposed or active) to open the detail panel.
+  </Step>
+  <Step title="Click Edit">
+    Top-right of the detail panel. The view becomes inline-editable.
+
+    <Frame caption="Test case in edit mode with all fields editable inline.">
+      ![Test case edit mode](/images/test-cases/08-edit-mode.png)
+    </Frame>
+  </Step>
+  <Step title="Make your changes">
+    - **Title** — change wording
+    - **Description** — add background
+    - **Preconditions** — add or remove
+    - **Steps** — add, reorder (drag-and-drop), delete
+    - **Expected results** — one per step
+    - **Test data** — change values, add columns, remove columns
+  </Step>
+  <Step title="Save">
+    Click **Save** in the top-right. The status stays as it was (Proposed stays Proposed, Active stays Active). Edits are versioned — you can always see what changed in the **History** tab.
+  </Step>
+</Steps>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Approve in waves" icon="waves">
+    Approve the obvious 70% first, then come back to edge cases. Reviewing the easy ones fast frees mental energy for the hard ones.
+  </Card>
+  <Card title="Use bulk approve aggressively" icon="check-double">
+    If the first 5 proposals are good, the next 10 from the same batch usually are too. Trust the pattern.
+  </Card>
+  <Card title="Reject with one-line reasons" icon="comment">
+    *"Wrong job code — we don't use Engineering"* is gold for AI training. *"Bad"* is not. Specifics make the next batch noticeably better.
+  </Card>
+  <Card title="Edit, don't reject + recreate" icon="pen">
+    If 90% of a proposal is right and 10% is wrong, edit. Rejecting and asking the AI to re-propose costs you tokens and re-review time.
+  </Card>
+  <Card title="Group related cases" icon="layer-group">
+    Test cases inherit from their scenario, which inherits from a category. Keep this hierarchy clean and your test runs will be much easier to navigate.
+  </Card>
+  <Card title="Don't manually write what AI can draft" icon="ban">
+    Even if you "know" what the test cases should be, generate first. The AI catches edge cases you'd skip when typing them by hand.
+  </Card>
+</CardGroup>
+
+---
+
+## Test case states
+
+| State | Meaning | Can be executed? |
+|---|---|---|
+| **Proposed** | AI drafted, awaiting human review | No |
+| **Active** | Approved, in the live test library | Yes |
+| **Edited** | Modified after approval | Yes |
+| **Archived** | Removed from active use but kept for history | No |
+| **Rejected** | Proposal was rejected; reason kept for AI training | No |
+
+State badges appear next to every test case in lists.
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="The AI proposed identical-looking test cases" icon="copy">
+    Usually means your scenario is too narrow — there's only one meaningful way to test it. Two options:
+
+    1. **Broaden the scenario** — open the scenario, edit the title/description to cover more ground, regenerate
+    2. **Approve the best one, reject the rest** with reason *"Duplicate of TC-XXX"* — trains the AI not to duplicate next time
+  </Accordion>
+
+  <Accordion title="The Approve button is missing" icon="lock">
+    Your role doesn't include test case promotion. Tester role can propose and reject but not approve. Ask your Test Coordinator or Project Manager to approve, or to grant you a higher role.
+  </Accordion>
+
+  <Accordion title="Generated test data has placeholder values like 'TBD' or 'XXX'" icon="circle-question">
+    The AI uses placeholders when it can't infer a concrete value from your workbook. Two fixes:
+
+    1. **Edit the placeholder before approving** — replace with your actual test data
+    2. **Add the data to your knowledge wiki** — document standard test values for your project so the AI uses them on the next generation
+  </Accordion>
+
+  <Accordion title="I want to mass-reject everything from one batch and re-generate" icon="trash">
+    Select all checkboxes → **Reject selected**. Then click **Generate Test Cases** again. You can pass guidance in the chat: *"Don't focus on validation — generate happy-path cases only this time."*
+  </Accordion>
+
+  <Accordion title="Generation never finishes (banner stuck)" icon="hourglass-half">
+    Typical generation finishes in under 60 seconds. If it's stuck:
+
+    1. Refresh the page — proposals may already be there
+    2. Click **Cancel generation** (if visible)
+    3. Retry; if it stalls again, contact your Admin
+  </Accordion>
+
+  <Accordion title="I edited a test case but the changes aren't reflected in the test script" icon="link-slash">
+    Test scripts are generated from test cases at a specific point in time. If you edit the test case after a script was generated, **regenerate the script** to pick up your changes. See [Test Scripts](/platform/test-scripts).
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Scenarios & Categories" icon="sitemap" href="/platform/scenarios-and-categories">
+    Test cases live inside scenarios — start there if you haven't generated scenarios yet.
+  </Card>
+  <Card title="Test Scripts" icon="scroll-text" href="/platform/test-scripts">
+    Next step: turn approved test cases into step-by-step scripts.
+  </Card>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    Test data comes from your workbook — keep it clean and the AI generates better cases.
+  </Card>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Add domain rules so the AI uses your real test data, not placeholders.
+  </Card>
+</CardGroup>

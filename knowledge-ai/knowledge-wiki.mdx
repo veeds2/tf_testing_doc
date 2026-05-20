@@ -1,33 +1,287 @@
 ---
 title: "Knowledge Wiki"
-description: "Capture institutional knowledge — terminology, decisions, lessons learned — so the AI gets smarter with every release."
+description: "Capture institutional knowledge — terminology, decisions, lessons learned — so TestFactors' AI gets smarter with every release."
 icon: "library"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**The Knowledge Wiki is the secret weapon of mature teams.** A well-maintained wiki cuts AI generation errors by ~60% and dramatically reduces the number of clarification questions on new workbooks.
 </Note>
 
-## What this module does
+## What the Knowledge Wiki does
 
-_To be written._
+Every HR project carries a mountain of context that lives only in people's heads: which fields are required for our subsidiaries, what naming conventions we use, why we always do X before Y, what last release's mistake was, which managers approve which moves.
 
-## Who uses it
+The Knowledge Wiki is where that context goes — in plain English. Once it's there:
 
-_To be written._
+1. **Scenario generation** uses it to propose more accurate categories and scenarios
+2. **Test case generation** uses it to fill in real data instead of placeholders
+3. **FactorBot** uses it to answer team questions with project-specific knowledge
+4. **Clarification questions** drop dramatically because the AI already knows your conventions
+5. **New team members** read it to onboard fast
 
-## Before you start
+Three layers of knowledge:
 
-_To be written._
+| Layer | What it is | Examples |
+|---|---|---|
+| **Wiki pages** | Long-form articles written by humans | *"How we handle US/Canada cross-border transfers"*, *"Picklist convention for Job Codes"* |
+| **Uploaded documents** | PDFs, Word docs, reference guides | SF release notes, vendor implementation docs, internal HR policies |
+| **Extracted facts** | Auto-extracted snippets from workbooks and answered clarifications | *"Strikethrough = deprecated (org-wide rule)"* |
 
-## Step-by-step
+---
 
-_To be written._
+## Who uses this module
+
+| Role | Read | Write articles | Upload documents | Promote facts to rules |
+|---|---|---|---|---|
+| **All members** | Yes | Limited (project-scoped) | Limited | No |
+| **Module Process Owner** | Yes | Yes (own module) | Yes | Yes |
+| **Test Manager / Coordinator** | Yes | Yes | Yes | Yes |
+| **Project Manager+** | Yes | Yes | Yes | Yes |
+
+---
+
+## Step-by-step: write your first wiki page
+
+<Steps>
+  <Step title="Open the Knowledge tab">
+    From your project's left sidebar, click **Knowledge**. The wiki home shows recent pages, uploaded documents, and the most-cited facts.
+
+    <Frame caption="Knowledge tab home with recent pages, documents, and a 'Most cited facts' widget.">
+      ![Knowledge home](/images/knowledge-wiki/01-knowledge-home.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click + New page">
+    Top-right of the page list. A blank page editor opens.
+
+    <Frame caption="Blank wiki page editor with title and content area.">
+      ![New page editor](/images/knowledge-wiki/02-new-page.png)
+    </Frame>
+  </Step>
+
+  <Step title="Write a clear title">
+    Use the form *"<Topic> — <Specific aspect>"*:
+
+    - Good: *"Position Codes — Naming Convention"*
+    - Good: *"US vs Canada — Termination workflow differences"*
+    - Less good: *"Notes about hire"*
+
+    Titles matter because they're how FactorBot and the AI find your pages later.
+  </Step>
+
+  <Step title="Write the content">
+    Use the rich text editor. Best practices:
+
+    - **Start with a one-line summary** — what's this page about
+    - **Use headings** for sections (the editor has H1/H2/H3 buttons)
+    - **Include examples** — concrete is better than abstract
+    - **Add tables for picklists or mapping rules**
+    - **Tag the page** with relevant categories (SF module, scenario type)
+
+    <Frame caption="Page editor with rich text formatting toolbar visible at the top.">
+      ![Page editing](/images/knowledge-wiki/03-page-editing.png)
+    </Frame>
+
+    <Tip>
+      Don't worry about polish. Two scrappy paragraphs beat one perfect page that never gets written. You can always come back and refine.
+    </Tip>
+  </Step>
+
+  <Step title="Save and tag">
+    Click **Save**. Add tags:
+
+    - **SF Module** — Employee Central, Compensation, Recruiting, etc.
+    - **Topic** — pick or create your own
+    - **Scope** — Project / Client / Organization (controls who else can see it)
+
+    <Frame caption="Save dialog with tag inputs for SF Module, Topic, and Scope.">
+      ![Save with tags](/images/knowledge-wiki/04-save-tags.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**Done.** Your page is in the wiki and will be referenced by FactorBot and AI generation immediately.
+</Check>
+
+---
+
+## Uploading reference documents
+
+PDFs, Word docs, and other reference materials work the same way — TestFactors extracts and indexes their content.
+
+<Steps>
+  <Step title="Click Upload document">
+    In the Knowledge tab → **Documents** sub-tab → **Upload**.
+  </Step>
+  <Step title="Drag-and-drop">
+    Drop one or more files. Accepted formats:
+
+    - PDF (text and OCR for image PDFs)
+    - DOCX
+    - TXT, MD
+    - HTML
+    - Excel sheets that are reference material, not workbooks (e.g. picklist masters)
+
+    Max 25 MB per file.
+  </Step>
+  <Step title="Tag and submit">
+    Add tags (same as for wiki pages). Click Upload.
+
+    Processing happens in the background — usually 30 seconds to 3 minutes per document. You'll get a notification when it's done.
+
+    <Frame caption="Upload dialog with two PDFs in the queue and a tag input.">
+      ![Upload documents](/images/knowledge-wiki/05-upload-docs.png)
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Open Questions — AI-detected knowledge gaps
+
+When the AI generates scenarios or test cases and runs into something it doesn't know about your project, it adds a question to the **Open Questions** queue instead of guessing. This is gold for filling wiki gaps.
+
+<Frame caption="Open Questions tab with 4 questions, each linking to where the gap was detected.">
+  ![Open questions](/images/knowledge-wiki/06-open-questions.png)
+</Frame>
+
+<Steps>
+  <Step title="Open the Open Questions tab">
+    Knowledge tab → **Open Questions**.
+  </Step>
+  <Step title="Pick a question">
+    Each question shows:
+    - What the AI was trying to do
+    - What it couldn't figure out
+    - What it currently assumed (and how confident it was)
+    - A direct link to **Answer this** (creates a wiki page draft)
+  </Step>
+  <Step title="Answer by writing a wiki page">
+    Click **Answer this**. A wiki page draft opens, pre-titled with the question and pre-filled with the AI's current assumption.
+
+    Edit the answer to be correct. Save.
+
+    The AI immediately picks up the new knowledge and may re-generate any affected scenarios/test cases.
+  </Step>
+</Steps>
+
+---
+
+## Promoting answered questions to rules
+
+Some answers are conventions that should apply project-wide (or even org-wide) — not just one-off knowledge.
+
+After answering a question, tick the **Apply as rule** checkbox:
+
+- **Workbook scope** — only this workbook
+- **Project scope** — every workbook in this project
+- **Client scope** — every workbook for this client
+- **Organization scope** — every workbook in your org (use sparingly; very high-leverage)
+
+Rules silently apply to future generations — no question is raised, no clarification needed.
+
+<Frame caption="Answer form with the 'Apply as rule' checkbox and scope selector.">
+  ![Promote to rule](/images/knowledge-wiki/07-promote-rule.png)
+</Frame>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Document why, not just what" icon="lightbulb">
+    *"We always use Position Code starting with 'POS-'"* is fine. *"Because Payroll's integration rejects anything else"* is much better — future readers understand the constraint.
+  </Card>
+  <Card title="One topic per page" icon="layers">
+    A 50-page wiki where each page covers one thing well beats a 5-page wiki where each page covers ten things badly.
+  </Card>
+  <Card title="Use examples generously" icon="braces">
+    *"For US: use 'EXEMPT' or 'NON-EXEMPT' (no other values)"* — concrete, testable, AI-readable.
+  </Card>
+  <Card title="Promote to rules slowly" icon="boundary">
+    A new rule at org scope affects every future workbook — verify the answer on 2–3 workbooks before promoting widely.
+  </Card>
+  <Card title="Answer Open Questions weekly" icon="calendar">
+    Make it a 15-minute weekly habit. Compounds dramatically — fewer questions next week, better generations the week after.
+  </Card>
+  <Card title="Link to source documents" icon="link">
+    *"Per <link to SF release note>, the new field X replaces Y in v2H 2025"* — citations turn wiki into knowledge.
+  </Card>
+</CardGroup>
+
+---
+
+## Search and discovery
+
+The Knowledge tab has a search bar at the top that searches:
+
+- Wiki page titles and bodies
+- Uploaded document content (including PDF text)
+- Tags
+- Answered Open Questions
+
+Results show a snippet with your search term highlighted, the source type, and a "Last updated" timestamp.
+
+For complex queries, ask **FactorBot** — it can run knowledge searches with full conversational context.
+
+<Frame caption="Search results showing 3 wiki pages and 1 PDF matching 'position code'.">
+  ![Knowledge search](/images/knowledge-wiki/08-search.png)
+</Frame>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="My wiki page doesn't appear in AI-generated scenarios" icon="ghost">
+    Three checks:
+    1. **Is it tagged?** Untagged pages are searchable but get less weight in AI generation. Add at least an SF Module tag.
+    2. **Is the scope right?** A wiki page at *Project A* scope won't influence generation in *Project B*.
+    3. **Has the AI seen it?** AI generation indexes new wiki pages within a few minutes. If you wrote the page right before generating, wait 5 minutes and re-generate.
+  </Accordion>
+
+  <Accordion title="An uploaded PDF says 'Processing' for over an hour" icon="hourglass-half">
+    Likely an OCR job on a scanned PDF. For very large or low-quality scans this can take 30+ minutes. If it's still processing after 2 hours, try uploading again. If it consistently fails, the PDF may be corrupted — try opening in Acrobat and re-saving.
+  </Accordion>
+
+  <Accordion title="I want to revoke a rule I promoted" icon="rotate-left">
+    Knowledge → **Rules** sub-tab. Find the rule, click **Disable**. Future generations won't apply it. Existing generations that used it stay intact.
+  </Accordion>
+
+  <Accordion title="My team is duplicating wiki pages" icon="copy">
+    Two patterns help:
+    1. **Search before you write** — always check if a page exists first
+    2. **Use the wiki's tag-based browsing** to find existing pages by SF module / topic
+
+    If duplicates exist, merge them: open the better one, copy over content from the worse one, then delete the duplicate.
+  </Accordion>
+
+  <Accordion title="A teammate's wiki page contains inaccurate info" icon="circle-info">
+    Edit it directly (if you have edit permission) or add a comment via the page's comment thread (`@mention` the author). All edits are versioned — nothing is lost.
+  </Accordion>
+
+  <Accordion title="I can't see a wiki page another teammate said exists" icon="lock">
+    Either it's scoped above your project (e.g. client-scope page when you're not a client member) or you're filtered to a different SF module. Check filters and ask the author for the scope.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    Promoting workbook clarification answers builds your wiki organically.
+  </Card>
+  <Card title="FactorBot" icon="bot" href="/knowledge-ai/factorbot">
+    FactorBot reads the wiki — well-maintained wiki = sharper answers.
+  </Card>
+  <Card title="Scenarios & Categories" icon="sitemap" href="/platform/scenarios-and-categories">
+    Wiki context dramatically improves AI scenario quality.
+  </Card>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Wiki provides real test data, eliminating placeholder values.
+  </Card>
+</CardGroup>

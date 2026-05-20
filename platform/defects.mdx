@@ -1,33 +1,287 @@
 ---
 title: "Defects"
-description: "Log issues with AI-drafted reproduction steps. Triage, assign, and track to resolution."
+description: "Log issues with AI-drafted reproduction steps. Triage, assign, and track to resolution — without losing context."
 icon: "bug"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**Defects are not just 'bug reports' here.** They're linked all the way back to the failed step, the script, the test case, the scenario, and the workbook. That chain is gold during triage.
 </Note>
 
 ## What this module does
 
-_To be written._
+A **defect** is something that didn't work as expected during testing. TestFactors makes defect logging painless:
 
-## Who uses it
+1. **AI drafts the defect** from the failed test execution — title, reproduction steps, expected vs actual, screenshots, severity suggestion.
+2. **You review and submit** in seconds.
+3. **The defect carries its provenance** — clickable links back to the script, the test case, the scenario, and the underlying workbook spec.
+4. **AI triages similar defects** — duplicates, related issues, and likely root causes are surfaced automatically.
+5. **Resolution flows back** — when a defect is fixed and re-tested, the execution result updates automatically.
 
-_To be written._
+The result: developers get higher-quality defect reports (with full context); HR analysts spend less time writing them.
+
+---
+
+## Who uses this module
+
+| Role | Log defects | Triage | Assign | Resolve | Verify |
+|---|---|---|---|---|---|
+| **Tester** | Yes | No | No | No | Yes (own) |
+| **Test Coordinator / Manager** | Yes | Yes | Yes | No | Yes |
+| **Project Manager** | Yes | Yes | Yes | Yes | Yes |
+| **Module Process Owner** | Yes | Yes | Limited | Limited | Yes |
+| **Developer / Consulting Developer** | Yes | Yes | Yes | Yes | No |
+| **Viewer** | No | No | No | No | No |
+
+---
 
 ## Before you start
 
-_To be written._
+Most defects are logged **inline during test execution** (see [Test Execution](/platform/test-execution)), so usually you don't "start" defect logging — it just happens when you click Fail on a step.
 
-## Step-by-step
+This guide covers the **Defects tab** where you triage, assign, and track defects that already exist.
 
-_To be written._
+---
+
+## Step-by-step: triage a defect
+
+<Steps>
+  <Step title="Open the Defects tab">
+    From the project's left sidebar, click **Defects**. You'll see all defects in the current cycle, filtered to status *Open* by default.
+
+    Filters at the top:
+    - **Status** — Open / In Progress / Resolved / Closed / Reopened
+    - **Severity** — Critical / High / Medium / Low
+    - **SF Module** — filter by Employee Central, Compensation, etc.
+    - **Assignee** — yourself / specific person / unassigned
+
+    <Frame caption="Defects tab with filter bar at the top and a list of defects below, color-coded by severity.">
+      ![Defects tab](/images/defects/01-defects-tab.png)
+    </Frame>
+  </Step>
+
+  <Step title="Open a defect">
+    Click any row. The defect detail opens with everything you need:
+
+    - **Header** — title, severity, status, assignee, due date
+    - **Summary** — one-line description
+    - **Reproduction steps** — numbered, from the failed execution
+    - **Expected vs Actual** — what should have happened vs what did
+    - **Attachments** — screenshots, screen recordings, logs
+    - **Provenance** — clickable chain: Test Case → Script → Execution → Step
+    - **AI Analysis** — TestFactors' guess at likely root cause and related defects
+    - **Activity** — comments, status changes, assignment history
+
+    <Frame caption="Defect detail page with all sections visible: header, reproduction steps, AI analysis, and activity feed.">
+      ![Defect detail](/images/defects/02-defect-detail.png)
+    </Frame>
+  </Step>
+
+  <Step title="Read the AI analysis">
+    The **AI Analysis** panel often surfaces:
+
+    - **Likely root cause** ("Probable cause: missing validation in the Hire workflow's Position step")
+    - **Similar defects** ("3 similar defects logged in this project: DEF-042, DEF-067, DEF-091 — 2 of which are Resolved")
+    - **Suggested assignee** based on past defect ownership patterns
+    - **Workbook reference** — the specific cell or row in your workbook that defines the expected behavior
+
+    Treat this as a strong hint, not a verdict. The AI is right ~70% of the time on root cause and ~90% on duplicates.
+
+    <Frame caption="AI Analysis panel showing root cause hypothesis, 3 similar defects, and a workbook reference link.">
+      ![AI analysis](/images/defects/03-ai-analysis.png)
+    </Frame>
+  </Step>
+
+  <Step title="Triage: change severity, assign, set due date">
+    From the defect header you can:
+
+    - **Change severity** — Critical demotes to High if it's not blocking work
+    - **Assign** — pick from project members (the dropdown shows their current defect load)
+    - **Set due date** — defaults to your project's SLA for this severity
+    - **Change status** — In Progress, Needs Info, Resolved, etc.
+
+    <Frame caption="Defect header with assignee dropdown open showing team members and their defect load.">
+      ![Triage controls](/images/defects/04-triage-controls.png)
+    </Frame>
+  </Step>
+
+  <Step title="Comment and request info if needed">
+    Use the activity feed to ask questions or add context. `@mention` teammates to notify them.
+
+    Common patterns:
+    - *"@developer Can you reproduce this in the QA sandbox? See attached screencast."*
+    - *"This may be a duplicate of DEF-042 — closing as duplicate."*
+    - *"Confirmed root cause: stale picklist value. Fix in flight."*
+  </Step>
+
+  <Step title="Mark as Resolved (developer flow)">
+    When the fix is deployed, the developer changes status to **Resolved**. The defect automatically:
+
+    - Notifies the original reporter
+    - Notifies the QA assignee
+    - Suggests re-execution of the originating script
+    - Updates the cycle dashboard
+
+    <Frame caption="Status change menu with Resolved option highlighted and the auto-notify recipients list.">
+      ![Resolve defect](/images/defects/05-resolve.png)
+    </Frame>
+  </Step>
+
+  <Step title="Verify the fix (tester flow)">
+    After Resolved, the original tester (or whoever's assigned) re-executes the failed script. If the test passes, click **Close** on the defect. If it fails again, click **Reopen** with a comment about what's still wrong.
+
+    <Frame caption="Resolved defect with 'Verify fix — re-run script' button prominent.">
+      ![Verify fix](/images/defects/06-verify-fix.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**Resolved + Closed = done.** The defect is archived but stays searchable forever — useful for "have we seen this before?" questions on future projects.
+</Check>
+
+---
+
+## Bulk triage
+
+For cycles with many defects, the Defects tab supports bulk actions:
+
+<Steps>
+  <Step title="Select multiple defects">
+    Use the checkboxes in the list. Or use **Select all matching filter** to grab every defect in the current view.
+  </Step>
+  <Step title="Bulk action toolbar appears">
+    Once 1+ defects are selected, the top toolbar shows:
+    - Change status
+    - Assign
+    - Set due date
+    - Add label
+    - Export
+  </Step>
+  <Step title="Apply the change">
+    Pick the action. Confirmation dialog confirms scope (`12 defects will be assigned to Maria Garcia`). Click confirm.
+
+    <Frame caption="Bulk action confirmation dialog showing 12 defects about to be reassigned.">
+      ![Bulk triage](/images/defects/07-bulk-triage.png)
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Defect routing rules (Project Managers)
+
+Avoid manual triage by setting up auto-assignment rules:
+
+<Steps>
+  <Step title="Open project settings">
+    Settings → **Defect Routing**.
+  </Step>
+  <Step title="Add a rule">
+    Click **+ New rule**. Each rule has:
+
+    - **Condition** — *"SF Module is Employee Central AND severity is Critical"*
+    - **Action** — *"Assign to John Smith, set due date to 24h"*
+    - **Priority** — rules evaluate top-down; the first matching rule wins
+
+    <Frame caption="Defect routing rule editor with condition builder and assignment fields.">
+      ![Routing rule](/images/defects/08-routing-rule.png)
+    </Frame>
+  </Step>
+  <Step title="Save and test">
+    Save the rule. Log a test defect that matches the condition to verify auto-assignment works.
+  </Step>
+</Steps>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Trust the AI duplicate detection" icon="copy">
+    When AI Analysis flags a similar defect, look at it before logging your own. Saves duplicate work for developers.
+  </Card>
+  <Card title="Write actionable titles" icon="pen">
+    *"Hire wizard fails on Position step when Position is future-dated"* is much better than *"Hire wizard broken."*
+  </Card>
+  <Card title="Severity is for impact, not annoyance" icon="gauge">
+    Critical = blocks all testing. High = blocks this scenario. Medium = workaround exists. Low = cosmetic. Don't inflate.
+  </Card>
+  <Card title="Reproduce before logging" icon="rotate-right">
+    Whenever possible, reproduce a second time before logging. Catches "user error" defects early.
+  </Card>
+  <Card title="Attach video for UI weirdness" icon="video">
+    A 10-second screen recording is worth 1000 words for "the button looks fine but doesn't respond on the third click."
+  </Card>
+  <Card title="Use labels for cross-cycle patterns" icon="tag">
+    Tag defects with labels like *picklist-bug*, *integration-payroll*, *post-refresh* to spot patterns over time.
+  </Card>
+</CardGroup>
+
+---
+
+## Defect states
+
+| State | Meaning | Who typically changes it |
+|---|---|---|
+| **Open** | Just logged, not yet triaged | Auto |
+| **In Progress** | Developer is investigating | Developer |
+| **Needs Info** | Developer needs clarification from reporter | Developer |
+| **Resolved** | Fix is deployed; ready for QA verification | Developer |
+| **Closed** | QA verified the fix; archived | Tester / Coordinator |
+| **Reopened** | QA verification failed; back to dev | Tester / Coordinator |
+| **Duplicate** | Closed as duplicate of another defect | Anyone |
+| **Won't Fix** | Acknowledged but not being fixed (with reason) | Project Manager |
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="I can't reproduce the defect I just logged" icon="ghost">
+    Add a comment to the defect: *"Cannot reproduce on retry."* Don't close it immediately — leave it Open with that note. Sometimes the original failure was a flaky network or a stale session and the defect should auto-close after 24h with no new info. Other times it surfaces a real intermittent bug.
+  </Accordion>
+
+  <Accordion title="The AI grouped two unrelated defects as duplicates" icon="link-slash">
+    Click **Not a duplicate** in the AI Analysis panel. Add a short reason — this trains the duplicate detection model to do better next time.
+  </Accordion>
+
+  <Accordion title="My defect has no reproduction steps" icon="circle-question">
+    Defects logged outside the execution flow (manually created) don't get auto-populated steps. Add them manually with the **Add steps** button in the defect editor. For future defects, log them inline during execution to get auto-population.
+  </Accordion>
+
+  <Accordion title="Developer keeps moving defects to 'Needs Info' without details" icon="question">
+    Reply on the activity feed: *"What specifically do you need to know?"* `@mention` them. If it's a pattern, talk to your Project Manager about clarifying the team's defect handoff process.
+  </Accordion>
+
+  <Accordion title="A defect was closed but the bug is still there" icon="rotate-right">
+    Click **Reopen** with a comment describing what's still wrong, including any new attachments. The defect goes back to the developer's queue.
+  </Accordion>
+
+  <Accordion title="I want to export defects to Jira / ALM / ServiceNow" icon="file-export">
+    Defects tab → **Export** → choose format. Common destinations have native templates. For custom systems, export CSV and import there. Some organizations have a one-way sync configured by their Admin — check Settings → Integrations.
+  </Accordion>
+
+  <Accordion title="The 'Verify fix' button is missing on a Resolved defect" icon="lock">
+    You're not the assigned verifier. Either the original tester is, or no verifier was assigned. Test Coordinators can reassign verifiers in the defect header.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Test Execution" icon="play" href="/platform/test-execution">
+    Defects are usually logged from here, inline as you execute.
+  </Card>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Defects link back to the test case so triagers see the full context.
+  </Card>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    AI Analysis often links defects to the workbook cell that defines the expected behavior.
+  </Card>
+  <Card title="FactorBot" icon="bot" href="/knowledge-ai/factorbot">
+    Ask FactorBot: *"Show me all defects in this project linked to picklists"* — it knows the data.
+  </Card>
+</CardGroup>

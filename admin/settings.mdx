@@ -1,33 +1,283 @@
 ---
 title: "Settings"
-description: "Tune your workspace, organization, and project preferences."
+description: "Tune your workspace, organization, client, and project preferences. Autosave — no Save buttons, no lost changes."
 icon: "settings"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**Settings in TestFactors autosave.** There are no Save / Apply / Submit buttons. Type a value, see a checkmark, and you're done.
 </Note>
 
 ## What this module does
 
-_To be written._
+Settings let you configure how TestFactors behaves at four levels:
 
-## Who uses it
+| Level | Examples |
+|---|---|
+| **Platform** | (Platform Admins only — defaults across the whole TestFactors deployment) |
+| **Organization** | Logo, color scheme, default data retention period, default AI model |
+| **Client** | Branding overrides for this client, location list, data retention overrides |
+| **Project** | Project name, branding overrides, default test cycle template, defect routing rules |
 
-_To be written._
+Settings **inherit** from the level above. A Project setting overrides Client; Client overrides Organization; Organization overrides Platform defaults. You can always reset a setting to inherit from the parent — and the inherited value will show up automatically.
 
-## Before you start
+---
 
-_To be written._
+## Who can change what
 
-## Step-by-step
+| Role | Platform settings | Org settings | Client settings | Project settings |
+|---|---|---|---|---|
+| **Platform Admin** | Yes | Yes | Yes | Yes |
+| **Org Admin** | No | Yes | Yes (own clients) | Yes (own projects) |
+| **Client Manager** | No | No | Yes | Yes (own projects) |
+| **Project Manager** | No | No | No | Yes |
+| **Test Manager / Coordinator** | No | No | No | Limited |
+| **Tester / Developer / Viewer** | Read | Read | Read | Read |
 
-_To be written._
+Members below admin level can **see** settings (helpful for context — "what's our retention policy?") but can't change them.
+
+---
+
+## Step-by-step: open and change a setting
+
+<Steps>
+  <Step title="Pick your scope">
+    Settings is accessible from three places, depending on what you want to change:
+
+    - **Project Settings** — gear icon at the bottom of any project's left sidebar
+    - **Client Settings** — gear icon next to the client name in the breadcrumbs
+    - **Org Settings** — top-right of the app, click your avatar → Organization Settings
+
+    <Frame caption="Project sidebar with the gear/Settings icon at the bottom-left.">
+      ![Settings entry points](/images/settings/01-entry-points.png)
+    </Frame>
+  </Step>
+
+  <Step title="Pick a tab">
+    Settings are organized into tabs (the available tabs change per scope):
+
+    - **General** — basic info (name, description)
+    - **Profile** — branding (logo, colors, theme)
+    - **Locations** — list of work locations / sites *(Client and Project only)*
+    - **Data Retention** — how long to keep workbooks, cycles, execution artifacts
+    - **Defect Routing** — auto-assignment rules *(Project only)*
+    - **Script Templates** — custom formats *(Project only)*
+    - **Integrations** — Jira, Slack, etc. *(varies by tier)*
+    - **Platform** — AI model defaults, signup gates *(Platform Admin only)*
+
+    <Frame caption="Project Settings page with tab strip across the top: General, Profile, Locations, Data Retention, Defect Routing.">
+      ![Settings tabs](/images/settings/02-tabs.png)
+    </Frame>
+  </Step>
+
+  <Step title="Change a value">
+    Click into any field and type. You'll see a small spinner next to the field, then a green check when it's saved.
+
+    <Frame caption="A settings field mid-edit with a 'Saving…' spinner; another field below shows the 'Saved' checkmark.">
+      ![Autosave indicators](/images/settings/03-autosave.png)
+    </Frame>
+
+    <Note>
+      **No Save button.** That's intentional — every change commits automatically. If you navigate away mid-edit, the last typed value is saved.
+    </Note>
+  </Step>
+
+  <Step title="If a field shows 'Inherited from <Parent>'">
+    The value comes from the parent scope (Org, Client). You see a small badge: *"Inherited from Client: Acme"*.
+
+    To override at this scope, just type a new value. The badge changes to *"Set at this scope."*
+
+    To go back to inherited, click the **Reset to inherited** button next to the field.
+
+    <Frame caption="Two fields side by side: one with 'Inherited from Acme' badge, one with 'Set at this scope' and a Reset button.">
+      ![Inheritance badges](/images/settings/04-inheritance.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**That's the whole settings experience.** Type, see check, move on. The complex inheritance and concurrency handling is all invisible.
+</Check>
+
+---
+
+## Setting your project's branding
+
+Branding (logo, colors, theme) makes TestFactors feel like *your* tool — especially helpful when external collaborators are looking at the screen.
+
+<Steps>
+  <Step title="Open Profile tab">
+    Project Settings → **Profile**. (Same workflow at Client and Org scope.)
+  </Step>
+
+  <Step title="Upload a logo">
+    Drag a PNG / JPEG / WebP / SVG into the logo area. Max 5 MB. The cropper opens automatically.
+
+    <Frame caption="Logo upload with cropper open, allowing zoom, pan, and rotation.">
+      ![Logo cropper](/images/settings/05-logo-cropper.png)
+    </Frame>
+
+    Adjust crop, zoom, and rotation. Click **Save crop** when happy. The logo is uploaded and applied immediately.
+  </Step>
+
+  <Step title="Pick a color preset">
+    Below the logo, the **Color preset** selector shows a swatch grid: Emerald, Forest, Teal, Amber, Ocean, Midnight, Indigo, Ruby, Slate, Rose, Violet, Sunset, Custom.
+
+    Click any swatch. The whole UI re-themes immediately.
+
+    <Frame caption="Color preset swatch grid with Indigo selected; the surrounding UI has just re-themed.">
+      ![Color preset](/images/settings/06-color-preset.png)
+    </Frame>
+
+    Pick **Custom** to set Primary, Secondary, and Accent colors manually.
+  </Step>
+
+  <Step title="Choose Light or Dark default">
+    The **Theme** toggle sets the default for new members. Each member can still flip personally — this just sets the project default.
+  </Step>
+</Steps>
+
+---
+
+## Data retention
+
+How long TestFactors keeps your data. Each retention setting has sensible defaults you usually don't need to change.
+
+| Setting | Default | Range | What it means |
+|---|---|---|---|
+| **Workbooks** | 365 days | 30–3650 | How long uploaded workbooks (and parsed data) are kept |
+| **Test cycles** | 730 days | 30–3650 | How long completed cycles (with executions, defects, scripts) are kept |
+| **Test run artifacts** | 90 days | 7–3650 | How long screenshots, recordings, and logs attached to executions are kept |
+
+<Warning>
+**Reducing retention deletes data.** A change from 365 to 30 days will trigger cleanup of anything older than 30 days within 24 hours. There's no undo — if you have audit requirements, never reduce without checking first.
+</Warning>
+
+---
+
+## Defect routing rules (Project setting)
+
+Auto-assign defects to specific people based on conditions. See [Defects](/platform/defects) for details.
+
+<Frame caption="Defect Routing tab with three rules listed and an 'Add rule' button.">
+  ![Defect routing](/images/settings/07-defect-routing.png)
+</Frame>
+
+---
+
+## Script templates (Project setting)
+
+Reusable formats for your test scripts. See [Test Scripts](/platform/test-scripts) for details.
+
+---
+
+## Inheritance examples
+
+To make inheritance concrete:
+
+### Example 1: Logo
+- Org *Acme* uploads its corporate logo at Org Profile
+- Every Client under Acme inherits the Acme logo
+- Client *Acme Q2 Project* uploads its own logo → that Client now shows its own
+- Projects under Acme Q2 Project still inherit *Acme Q2's* logo (not Acme corporate's)
+- If a specific Project wants the corporate Acme logo back: open that Project's Profile, click **Reset to inherited** on the logo — it falls back to Acme Q2 Project's logo (the immediate parent). If you want to skip a level entirely, you have to upload it explicitly at the desired level.
+
+### Example 2: Data retention
+- Org default: 365 days for workbooks
+- Client X (regulated industry) needs longer: sets 1825 days at Client level
+- Every Project under Client X inherits 1825 days
+- One Project that handles only test data wants the org default: sets 365 days at Project level
+- Everything works — projects can override clients, clients override orgs
+
+### Example 3: Color preset
+- Org sets Emerald
+- Project Manager of *Project Alpha* changes to Indigo for that project
+- Members in Project Alpha see Indigo; members in *Project Beta* (still inheriting from Org) see Emerald
+- Both are correct — branding is per-scope
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Trust autosave" icon="check">
+    The checkmark means it's saved. No need to refresh or "verify." Move on.
+  </Card>
+  <Card title="Use Org-level branding" icon="building">
+    Set your corporate logo and color once at Org level. New clients and projects inherit automatically — no manual setup per project.
+  </Card>
+  <Card title="Don't touch retention unless you must" icon="archive">
+    Defaults are sensible for most teams. Increase for compliance-sensitive data; decrease only if storage cost is a real issue.
+  </Card>
+  <Card title="Document non-default settings" icon="note-sticky">
+    If you change something away from the default, add a wiki page explaining why. Future you (or your replacement) will thank you.
+  </Card>
+  <Card title="Reset cleans up overrides" icon="rotate-left">
+    Project gone weird? Reset its Profile to inherited and see if it matches Client/Org. Often that's enough to "fix" a misconfigured project.
+  </Card>
+  <Card title="Use the schema for audits" icon="list">
+    The settings registry (all keys and their defaults) is available via the API — your Admin can pull a complete list of every setting in TestFactors.
+  </Card>
+</CardGroup>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="The fields are all greyed out / read-only" icon="lock">
+    You don't have admin authority at this scope. Either:
+    1. Ask someone with the right role to make the change
+    2. Ask to be promoted (Project Manager for project settings, Client Manager for client settings, etc.)
+  </Accordion>
+
+  <Accordion title="I saved a value but it didn't take effect" icon="circle-question">
+    Three checks:
+    1. **Did the checkmark appear?** If you saw a red error, the value failed validation — read the error.
+    2. **Are you sure you're looking at the right scope?** A Client override shadows an Org value; you may be seeing the override.
+    3. **Refresh the page.** Sometimes the in-memory cache lags by a few seconds.
+  </Accordion>
+
+  <Accordion title="A teammate saved while I was editing — what happens?" icon="users">
+    TestFactors handles concurrent edits gracefully. If you and a teammate both edit different fields, both saves succeed. If you both edit the *same* field, the later save wins with a small toast: *"Another user just updated this — your value was applied last."*
+  </Accordion>
+
+  <Accordion title="My logo crop looks wrong after upload" icon="crop">
+    Upload again — you can re-crop in the same upload dialog. Each new upload replaces the previous one atomically. Old logo is deleted automatically.
+  </Accordion>
+
+  <Accordion title="The Reset to inherited button is missing" icon="rotate-left">
+    Either:
+    1. The value isn't inherited (it's set at this scope and there's no parent value to fall back to)
+    2. You don't have permission to change it
+
+    Hover over the field; the tooltip will explain.
+  </Accordion>
+
+  <Accordion title="I see 'Saving paused…'" icon="pause">
+    You've hit the autosave rate limit (60 changes per minute per user). Pause for a moment; saves will resume automatically. Usually only seen when a script is accidentally typing into a field repeatedly.
+  </Accordion>
+
+  <Accordion title="I see a deprecated setting" icon="triangle-exclamation">
+    Some old settings get marked deprecated and read-only with a "use <new key>" hint. Open the suggested replacement and configure it instead. The deprecated one stays visible for context but won't accept writes.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Memberships & Access" icon="users" href="/admin/memberships-and-access">
+    Configure who can change settings.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Defect routing rules live in Project Settings.
+  </Card>
+  <Card title="Test Scripts" icon="scroll-text" href="/platform/test-scripts">
+    Script templates live in Project Settings.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/platform/quickstart">
+    New here? Get oriented before diving into Settings.
+  </Card>
+</CardGroup>

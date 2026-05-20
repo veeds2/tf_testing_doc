@@ -5,29 +5,251 @@ icon: "bot"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**FactorBot is the fastest way to get an answer about your project.** Faster than searching, faster than asking a colleague, and it cites its sources so you can verify.
 </Note>
 
-## What this module does
+## What FactorBot does
 
-_To be written._
+FactorBot is an AI assistant built into TestFactors that knows everything about **your current project**:
 
-## Who uses it
+- Every uploaded workbook (every sheet, every cell)
+- Every scenario, test case, and script
+- Every defect logged in any cycle
+- Every entry in your project's knowledge wiki
+- Every membership and permission in your project
 
-_To be written._
+You ask in plain English. FactorBot answers with citations — every claim it makes links back to the source it came from.
 
-## Before you start
+Examples of what you can ask:
 
-_To be written._
+> *"Which scenarios cover hire flows for international employees?"*
+>
+> *"Show me all defects logged on the Hire wizard this cycle."*
+>
+> *"What does Iteration 2 mean on the Position Management sheet?"*
+>
+> *"Who's the assigned tester for the Compensation module?"*
+>
+> *"What's the difference between Test Cases TC-042 and TC-043?"*
+>
+> *"Summarize the open defects by severity."*
+>
+> *"What workbook changes between v2 and v3 of the FO workbook?"*
 
-## Step-by-step
+---
 
-_To be written._
+## Who can use FactorBot
+
+| Role | Can chat | Can see all project data | Can run actions |
+|---|---|---|---|
+| **All project members** | Yes | Scoped to what you can see in the UI | Limited (read-only for now; some safe actions available) |
+
+FactorBot respects your permissions. A Tester asking *"Show me all members of this organization"* will only see members of the projects they belong to.
+
+---
+
+## Where to find FactorBot
+
+The FactorBot chat icon appears in the bottom-right corner of every page when you're inside a project. Click to open a side panel.
+
+<Frame caption="A TestFactors page with the FactorBot chat icon in the bottom-right corner of the viewport.">
+  ![FactorBot icon](/images/factorbot/01-bot-icon.png)
+</Frame>
+
+<Frame caption="FactorBot side panel open showing the chat input and welcome message.">
+  ![FactorBot panel open](/images/factorbot/02-bot-open.png)
+</Frame>
+
+---
+
+## Step-by-step: ask your first question
+
+<Steps>
+  <Step title="Open the panel">
+    Click the FactorBot icon (bottom-right). The chat panel slides in.
+  </Step>
+
+  <Step title="Type a question">
+    Just write what you want to know in plain English. Don't worry about phrasing — FactorBot understands typos, partial questions, and conversational tone.
+
+    Example: *"how many test cases for hire"*
+
+    <Frame caption="Chat input with a question being typed.">
+      ![Typing question](/images/factorbot/03-typing.png)
+    </Frame>
+  </Step>
+
+  <Step title="Read the answer">
+    FactorBot streams the answer in real time. Every claim has a citation badge — click it to jump to the source.
+
+    Example response:
+
+    > You have **18 test cases** related to hire flows across 3 categories:
+    >
+    > - **Hire** (12 cases) — `Category: Hire` [↗]
+    > - **Rehire** (4 cases) — `Category: Rehire` [↗]
+    > - **Concurrent Hire** (2 cases) — `Category: Concurrency` [↗]
+    >
+    > Of those, **15 are Active** and **3 are still Proposed**. Want me to open the Proposed ones for review?
+
+    <Frame caption="FactorBot response with inline citations and a follow-up offer.">
+      ![Bot answer](/images/factorbot/04-answer.png)
+    </Frame>
+  </Step>
+
+  <Step title="Follow up">
+    Reply to refine. FactorBot keeps the conversation context:
+
+    > *"Yes, show me the proposed ones"*
+
+    FactorBot opens the list in the main pane or directly cites the 3 proposals with links.
+  </Step>
+
+  <Step title="Verify a citation if needed">
+    Click any citation badge `[↗]` to open the source (workbook cell, test case, defect, wiki page) in a new tab.
+
+    <Frame caption="Clicking a citation opens the source test case in a side-by-side view.">
+      ![Citation click](/images/factorbot/05-citation.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**That's it.** Your first question. FactorBot remembers the conversation, so follow-ups feel natural.
+</Check>
+
+---
+
+## What FactorBot is great at
+
+<CardGroup cols={2}>
+  <Card title="Finding things" icon="magnifying-glass">
+    *"Where's the defect about the picklist on the Job Code field?"* — beats manual searching every time.
+  </Card>
+  <Card title="Summarizing" icon="text">
+    *"Summarize this cycle's progress."* / *"What are the top 3 risks right now?"*
+  </Card>
+  <Card title="Explaining" icon="lightbulb">
+    *"What does the AI mean by 'high_null_rate' on this column?"* — FactorBot reads the docs so you don't have to.
+  </Card>
+  <Card title="Comparing" icon="not-equal">
+    *"How is test case TC-042 different from TC-051?"* — diff view in plain English.
+  </Card>
+  <Card title="Workbook lookups" icon="book-open">
+    *"What's the expected behavior for a Position with no manager assigned?"* — FactorBot finds the relevant workbook cell.
+  </Card>
+  <Card title="Status questions" icon="chart-line">
+    *"Who hasn't started their assignments yet?"* — saves you a trip to the dashboard.
+  </Card>
+</CardGroup>
+
+## What FactorBot is less great at
+
+<CardGroup cols={2}>
+  <Card title="Predicting the future" icon="crystal-ball">
+    *"Will we hit the deadline?"* — FactorBot can summarize progress and velocity, but human judgment makes the call.
+  </Card>
+  <Card title="Strategic decisions" icon="chess">
+    *"Should we skip regression testing this cycle?"* — that's a call you make.
+  </Card>
+  <Card title="External information" icon="globe">
+    FactorBot doesn't browse the internet or know things outside your TestFactors project. For SF help, use SAP's documentation.
+  </Card>
+  <Card title="Destructive actions" icon="trash">
+    By design FactorBot won't delete defects, archive test cases, or remove members on its own — those need explicit human action in the UI.
+  </Card>
+</CardGroup>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Be specific when you can" icon="bullseye">
+    *"Show me Critical defects in EC logged this week"* beats *"What's broken?"*. Specifics get crisper answers.
+  </Card>
+  <Card title="Don't pre-format your question" icon="text-slash">
+    No need for keywords or jargon. Conversational works fine: *"i think there's a defect about the wizard. can you find it?"*
+  </Card>
+  <Card title="Use it for onboarding new team members" icon="user-plus">
+    *"Walk me through this project — what's the goal of this cycle?"* — FactorBot gives a great orientation.
+  </Card>
+  <Card title="Ask for the data, not the conclusion" icon="table">
+    *"Show me defect counts by severity"* gets you a table. *"Is the project healthy?"* gets you opinion. Pick the right one.
+  </Card>
+  <Card title="Click citations" icon="link">
+    Don't trust the summary — verify the source. FactorBot is right 95% of the time and wrong 5% — knowing which is which matters.
+  </Card>
+  <Card title="Start a new chat for new topics" icon="comments">
+    Long conversations get muddled. Use the **+ New chat** button to reset context when switching subjects.
+  </Card>
+</CardGroup>
+
+---
+
+## Conversation history
+
+FactorBot keeps your chat history per project. The history panel (left side of the chat) shows recent conversations grouped by date.
+
+- **Search history** with the input at the top
+- **Pin** important conversations so they stay at the top
+- **Delete** conversations you don't need
+- **Share** a conversation with a teammate (sends a link they can view)
+
+<Frame caption="FactorBot side panel with conversation history list on the left.">
+  ![Chat history](/images/factorbot/06-history.png)
+</Frame>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="FactorBot says 'I don't have access to that information'" icon="lock">
+    Two possible causes:
+    1. **You don't have permission** to see the data you're asking about (e.g. defects in a project you're not a member of). FactorBot respects your permissions — ask your Admin if you should have access.
+    2. **The data doesn't exist yet** — e.g. asking about scenarios when none have been generated. Use the relevant module to create the data first.
+  </Accordion>
+
+  <Accordion title="The answer cites the wrong source" icon="circle-question">
+    Click the **thumbs-down** on the response with a one-line note describing what was wrong. This trains the model. The right answer is often one follow-up question away: *"That citation looks wrong — can you double-check against the v3 workbook?"*
+  </Accordion>
+
+  <Accordion title="FactorBot is slow / unresponsive" icon="hourglass-half">
+    Most responses come within 3–10 seconds. If it's taking 30+:
+    1. Cancel and retry (the **Stop** button in the chat input)
+    2. Refresh the page
+    3. If it's still slow, your AI service may be experiencing latency — try again in a few minutes
+  </Accordion>
+
+  <Accordion title="The answer is too short / lacks detail" icon="text-size">
+    Ask a follow-up: *"Can you give me more detail on the second point?"* or *"Show me 10 examples instead of 3."* FactorBot calibrates to what you ask for.
+  </Accordion>
+
+  <Accordion title="I want to share a chat with a colleague" icon="share">
+    Click the **share** icon in the chat header. Generates a link that — when opened by a teammate with project access — shows them the full conversation. They can continue the conversation from there.
+  </Accordion>
+
+  <Accordion title="FactorBot doesn't know about a workbook I just uploaded" icon="clock-rotate-left">
+    Workbooks need to finish processing before FactorBot can read them. Check the Workbooks tab — once it says "Ready", FactorBot will see it within ~30 seconds.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Add domain knowledge so FactorBot's answers get smarter over time.
+  </Card>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    FactorBot's accuracy depends on clean, processed workbooks.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Ask FactorBot to find, summarize, or compare defects.
+  </Card>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Use FactorBot to find specific test cases when there are too many to scroll through.
+  </Card>
+</CardGroup>

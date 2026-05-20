@@ -1,33 +1,397 @@
 ---
 title: "Workbooks"
-description: "Upload your HR specification workbooks and let TestFactors read them for you. This is where every project starts."
+description: "Upload your HR specification workbooks. TestFactors reads every sheet, every column, every cell — and tells you what it found, what it's unsure about, and what it needs you to confirm."
 icon: "book-open"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**Workbooks are the foundation of everything else in TestFactors.** Scenarios, test cases, scripts, and defects all trace back to a workbook. Get this one right and the rest of the workflow flows naturally.
 </Note>
 
 ## What this module does
 
-_To be written._
+A **workbook** is an Excel file (`.xlsx`) that describes how your HR system should behave — typically a SAP SuccessFactors Employee Central configuration sheet like *Foundation Objects*, *Position Management*, *Transactions*, or *Employee Data*. These files often have hundreds of rows, dozens of sheets, and rich formatting (strike-throughs, hidden rows, colored cells) that carry meaning a tester needs to understand.
 
-## Who uses it
+TestFactors reads your workbook end-to-end and:
 
-_To be written._
+1. **Parses every sheet** — identifies headers, merged columns, hidden rows, iteration markers, picklist references, and section labels.
+2. **Classifies each sheet** — *Configuration*, *Picklists*, *Legend*, *Table of Contents*, *Boilerplate*, etc. — so the AI knows what's testable.
+3. **Annotates every meaningful cell** — strike-throughs become "deprecated" badges, X marks become "applies to Iteration 1", comments become tagged intents.
+4. **Asks you only what it must** — a small, focused list of questions (capped at 25) for things it's genuinely unsure about. No 200-question survey.
+5. **Becomes the source of truth** — every scenario and test case the AI later proposes is grounded in this workbook.
+
+---
+
+## Who uses this module
+
+| Role | Can do |
+|---|---|
+| **Org Admin** | Upload, exclude/include sheets, manage all workbooks across the org |
+| **Client Manager** | Upload + manage workbooks for their clients |
+| **Project Manager** | Upload + manage workbooks within their projects |
+| **Test Manager / Test Coordinator** | Upload, answer clarification questions, exclude sheets |
+| **Developer / Consulting Developer** | Read workbooks; upload only if granted by project admin |
+| **Tester** | Read workbooks (cannot upload or change exclusions) |
+| **Viewer** | Read-only |
+
+<Tip>
+If "Upload Workbook" is greyed out or missing, you don't have upload permission for this project. Ask your Project Manager or Admin to invite you with **Test Coordinator** role or higher.
+</Tip>
+
+---
 
 ## Before you start
 
-_To be written._
+You'll need:
 
-## Step-by-step
+- **A workbook file in `.xlsx` format**. Old `.xls`, Google Sheets exports, and PDF specs aren't accepted directly — export them to `.xlsx` first.
+- **File size under 50 MB.** Bigger files need to be split (e.g. one workbook per SF module).
+- **A project to upload into.** If you don't have one, see [Quickstart](/platform/quickstart).
+- **About 2–5 minutes** for TestFactors to parse a typical workbook. Large or complex ones can take longer — you can navigate away and come back.
 
-_To be written._
+<Note>
+**What workbook types does TestFactors understand best?** SuccessFactors Employee Central configuration workbooks, including: Foundation Objects, Position Management, EC Transactions, Employee Data, Approver/Proxy lists, Portlet definitions. CSV files are accepted for some import-template flows.
+</Note>
+
+---
+
+## Step-by-step: upload your first workbook
+
+<Steps>
+  <Step title="Open your project">
+    From the main dashboard, click the project you're working in. You'll land on the **Project Overview**.
+
+    <Frame caption="Project Overview page with the left-hand navigation showing Workbooks, Scenarios, Test Cases, etc.">
+      ![Project Overview page](/images/workbooks/01-project-overview.png)
+    </Frame>
+  </Step>
+
+  <Step title="Open the Workbooks tab">
+    In the left sidebar, click **Workbooks**. If this is your first upload, you'll see an empty state with a big **+ Upload Workbook** button. If you already have workbooks, the button sits in the top-right.
+
+    <Frame caption="Empty Workbooks tab with the central 'Upload Workbook' call-to-action.">
+      ![Empty Workbooks tab](/images/workbooks/02-empty-workbooks.png)
+    </Frame>
+  </Step>
+
+  <Step title="Choose your file">
+    Click **+ Upload Workbook**. A dialog opens. Either:
+
+    - **Drag and drop** your `.xlsx` file onto the dotted area, or
+    - Click **Browse** and pick the file from your computer.
+
+    The dialog will validate the file immediately (file type, size, basic structure). You'll see a green check when it's valid.
+
+    <Frame caption="Upload dialog showing the drag-and-drop area with a file selected and ready to upload.">
+      ![Upload dialog with file selected](/images/workbooks/03-upload-dialog.png)
+    </Frame>
+
+    <Warning>
+      If you see a red error, the most common causes are:
+      - File is `.xls` (old format) instead of `.xlsx` → re-save as `.xlsx` in Excel
+      - File is over 50 MB → split into smaller workbooks
+      - File is password-protected → remove the password
+    </Warning>
+  </Step>
+
+  <Step title="Optional: name and tag your workbook">
+    By default the workbook is named after the file. You can change this in the **Name** field — pick something your team will recognize three months from now (e.g. *"FO Workbook — Q2 2026 Release"* rather than just *"FO Workbook"*).
+
+    Add a **SF Module** tag if you know which module this workbook is for (Employee Central, Recruiting, Compensation, etc.). This helps the AI generate better scenarios later.
+
+    <Frame caption="Upload dialog showing the Name field and the SF Module dropdown.">
+      ![Workbook naming options](/images/workbooks/04-workbook-naming.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click Upload">
+    Click **Upload** at the bottom of the dialog. The dialog closes and you'll see your workbook in the list with a **Processing…** badge.
+
+    <Frame caption="Workbook list with the new workbook in 'Processing…' state.">
+      ![Workbook processing state](/images/workbooks/05-processing.png)
+    </Frame>
+
+    <Tip>
+      You can leave this page and come back. Processing happens in the background — you'll get a notification when it's done.
+    </Tip>
+  </Step>
+
+  <Step title="Wait for parsing">
+    For a typical workbook this takes 30 seconds to 3 minutes. For very large workbooks (50 MB, hundreds of sheets) it can take 10 minutes.
+
+    When parsing is done the badge changes to **Ready** with a count of sheets, columns, and clarification questions.
+
+    <Frame caption="Workbook list with parsing complete: 12 sheets, 247 columns, 3 questions.">
+      ![Workbook ready state](/images/workbooks/06-ready.png)
+    </Frame>
+  </Step>
+
+  <Step title="Open the workbook to review what TestFactors found">
+    Click the workbook name. You'll land on the **Workbook detail page** with these tabs:
+
+    - **Sheets** — every sheet with its classification, exclusion state, and a one-line summary
+    - **Questions** — anything TestFactors is unsure about and would like you to confirm (almost always under 25 items)
+    - **Picklists** — every picklist found across all sheets, with their codes and labels
+    - **Knowledge** — extracted facts that will feed into AI scenario generation
+
+    <Frame caption="Workbook detail page with the Sheets tab open, showing 12 sheets classified by type.">
+      ![Workbook detail — Sheets tab](/images/workbooks/07-workbook-detail.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**You're done with the upload.** Next, walk through the Questions tab (5 minutes) to confirm what TestFactors was unsure about — this dramatically improves the quality of every AI-generated scenario downstream.
+</Check>
+
+---
+
+## Understanding what TestFactors shows you
+
+### Sheet classifications
+
+Every sheet gets one of these labels:
+
+| Classification | What it means | Will scenarios be generated? |
+|---|---|---|
+| **Configuration (CSF)** | The actual config the system reads. Source of test cases. | Yes |
+| **Dependent CSF** | Config that depends on another sheet. | Yes |
+| **Picklists** | Master list of dropdown values referenced elsewhere. | Used for validation, not standalone tests |
+| **Legend** | Explains symbols/colors used in the workbook. | No |
+| **Table of Contents** | Sheet index / navigation. | No |
+| **Boilerplate** | Cover pages, instructions, change logs. | No |
+
+Boilerplate, Legend, and TOC sheets are automatically excluded from test generation — you don't need to do anything. If TestFactors classified something incorrectly, you can flip it manually with the **Include / Exclude** toggle (see [Excluding sheets](#excluding-sheets-or-columns) below).
+
+### Iteration columns
+
+If your workbook uses iteration markers (columns titled *"Iteration 1 Change"*, *"Iteration 2 Change"*, etc., with X marks on affected rows), TestFactors detects them automatically. You'll see iteration filter pills at the top of the sheet:
+
+<Frame caption="Iteration filter chips at the top of a sheet: I1 (12 rows) | I2 (3 rows) | I3 (0 rows).">
+  ![Iteration filter chips](/images/workbooks/08-iteration-filter.png)
+</Frame>
+
+Click a chip to filter the sheet to just that iteration. The AI will respect iteration scope when generating scenarios — so a scenario for an I2-only change won't accidentally test I1 behavior.
+
+### Deprecated rows (strike-throughs)
+
+Rows that are visually struck-through in the source workbook are flagged as **Deprecated** and dimmed in the UI. They're kept visible (for audit) but excluded from test generation by default.
+
+<Frame caption="A sheet view with two rows shown in greyed-out, strikethrough style and a 'Deprecated' badge.">
+  ![Deprecated rows](/images/workbooks/09-deprecated-rows.png)
+</Frame>
+
+### Comments with detected intent
+
+When TestFactors finds a *Comments* or *Notes* column, it tags each non-empty comment with an intent:
+
+- **Workshop Default** — "default value set in workshop"
+- **Hard Constraint** — "must always be X"
+- **Field Doc** — explanatory comment about a field
+- **Dated Decision** — "PB 06/02: decided to use…"
+- **Cross-Sheet Reference** — "see Position Management sheet"
+
+These tags help the AI understand which comments are constraints (testable) versus documentation (background context).
+
+---
+
+## Answering clarification questions
+
+When parsing finishes, TestFactors may have 1–25 questions about your workbook. They're not random — every question fired a smart filter that determined:
+
+- *The system isn't sure enough to silently assume one answer*, **and**
+- *Your answer will affect what tests get generated*
+
+Each question has a recommendation. **In most cases you can read it, confirm, and move on in 10 seconds per question.**
+
+<Steps>
+  <Step title="Open the Questions tab">
+    Click **Questions** in the workbook detail page. You'll see a list of pending clarifications grouped by priority (high / medium / low).
+
+    <Frame caption="Questions tab with 7 pending clarifications, each showing the question, recommended answer, and confidence.">
+      ![Questions tab](/images/workbooks/10-questions-tab.png)
+    </Frame>
+  </Step>
+
+  <Step title="Read the question and the recommendation">
+    Each question card shows:
+
+    - **The question** in plain English (e.g. *"Confirm strikethrough convention on sheet 'Position Management Setting'"*)
+    - **What TestFactors thinks the answer is** ("We think this is: *Deprecated — exclude from test cases*") with a confidence percentage
+    - **Why it thinks that** — the evidence ("12 of 47 rows have strikethrough — typical deprecation pattern")
+    - **A jump link** to the relevant sheet or cell so you can verify
+
+    <Frame caption="A single clarification card with the question, recommendation banner, multiple-choice options, and a free-text fallback.">
+      ![Clarification card](/images/workbooks/11-clarification-card.png)
+    </Frame>
+  </Step>
+
+  <Step title="Pick an answer">
+    Most questions have multiple-choice options with the recommended one pre-selected. You have three ways to answer:
+
+    - **Accept the recommendation** → click **Submit** without changing anything
+    - **Pick a different option** → click another radio button, then **Submit**
+    - **Type your own answer** → use the free-text box below the options (for "Other / specify…")
+  </Step>
+
+  <Step title="Skip what you can't answer yet">
+    Don't know? Click **Skip** — the question stays pending and you can come back to it. Skipped questions don't block test generation, but the AI may produce less accurate scenarios in that area until you answer.
+
+    <Tip>
+      It's usually faster to skip questions you need to consult someone about, then batch them with a colleague rather than getting stuck on one.
+    </Tip>
+  </Step>
+
+  <Step title="Promote your answer to a rule (optional)">
+    Some answers offer a **"Apply this to future workbooks"** checkbox. Tick it to create a rule — next time you upload a similar workbook, TestFactors will silently apply your answer without asking again.
+
+    Rules can apply at **workbook**, **project**, **client**, or **organization** scope. Higher scope = wider reuse.
+  </Step>
+</Steps>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Use clear file names" icon="tag">
+    `EC_FO_Workbook_Q2-2026_v3.xlsx` is far more useful than `Workbook(1).xlsx` when you have 20 workbooks on a project.
+  </Card>
+  <Card title="Upload one workbook per module" icon="layers">
+    Splitting Foundation Objects from Position Management from Transactions gives the AI cleaner context per module and faster parsing.
+  </Card>
+  <Card title="Answer questions early" icon="clock">
+    Questions answered before scenario generation produce better tests. Questions answered later trigger silent re-generation of affected scenarios.
+  </Card>
+  <Card title="Promote stable answers to rules" icon="repeat">
+    For conventions that always apply at your organization ("strike-through always means deprecated"), promote to org-scope. Saves time on every future workbook.
+  </Card>
+  <Card title="Don't manually edit struck rows" icon="shield">
+    Let TestFactors keep them visible as deprecated — you'll need them for audit and for understanding what changed between releases.
+  </Card>
+  <Card title="Re-upload, don't edit in place" icon="upload">
+    If your spec changes, upload a **new version** of the workbook (TestFactors versions them automatically). Don't try to fix the old upload — the changes won't propagate cleanly.
+  </Card>
+</CardGroup>
+
+---
+
+## Excluding sheets or columns
+
+Sometimes a sheet that *looks* like config isn't testable (e.g. a future-state mockup, a vendor's internal worksheet, an empty placeholder). You can exclude it:
+
+<Steps>
+  <Step title="Open the Sheets tab">
+    In the workbook detail page, click **Sheets**.
+  </Step>
+  <Step title="Find the sheet">
+    Look for the sheet you want to exclude. Each row has an **Include / Exclude** toggle on the right.
+
+    <Frame caption="Sheets list with each row showing the sheet name, classification, row count, and an Include/Exclude toggle.">
+      ![Sheets list with toggle](/images/workbooks/12-sheet-exclude.png)
+    </Frame>
+  </Step>
+  <Step title="Flip the toggle">
+    Click **Exclude**. The sheet greys out in the list and is removed from scenario generation. You can re-include it any time with the same toggle.
+  </Step>
+  <Step title="Optional: exclude specific columns">
+    Open the sheet, click the column header menu (⋮), and choose **Exclude column**. Useful when one column is internal notes or a parking lot for the SI team.
+
+    <Frame caption="Sheet view with a column header menu open showing 'Exclude column' option.">
+      ![Column exclude menu](/images/workbooks/13-column-exclude.png)
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Workbook versions
+
+When you upload a `.xlsx` with the **same file name** to the **same project**, TestFactors treats it as a **new version** of the existing workbook rather than a duplicate.
+
+- The previous version stays available (you can switch back if needed)
+- Scenarios and test cases linked to the prior version stay intact
+- Answered clarifications carry forward — you only see *new* questions
+- Excluded sheets remain excluded
+- Promoted rules apply automatically
+
+This means your day-to-day rhythm during a release is: SI delivers v2 of the workbook → you upload it → review the (small) Questions list → re-generate scenarios for any newly added sheets only. Painless.
+
+<Frame caption="Workbook detail header with a version dropdown showing v1, v2 (current), v3.">
+  ![Workbook version selector](/images/workbooks/14-workbook-versions.png)
+</Frame>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="Upload failed: 'File type not supported'" icon="file-x">
+    The file must be `.xlsx` (Excel 2007+). Fix:
+    1. Open the file in Excel
+    2. **File → Save As** → choose *Excel Workbook (.xlsx)*
+    3. Re-upload
+  </Accordion>
+
+  <Accordion title="Upload failed: 'File too large'" icon="weight-scale">
+    Files over 50 MB are rejected. Usual cause: the workbook has many tabs or one tab with huge embedded data. Split it:
+    - One workbook per SF module (Foundation Objects in one file, Position Management in another)
+    - Or remove non-essential tabs (cover pages, change logs) and keep only the testable sheets
+  </Accordion>
+
+  <Accordion title="Processing is stuck on 'Parsing…' for over 30 minutes" icon="hourglass-half">
+    First, refresh the page — sometimes the badge is stale. If it's truly stuck:
+    1. Check the **Questions** tab — sometimes parsing finished but generated so many questions the UI is loading slowly
+    2. Try uploading again (the original processing job may have hit an error)
+    3. If it happens twice, contact your Admin with the workbook name and timestamp
+  </Accordion>
+
+  <Accordion title="A sheet is missing from the Sheets tab" icon="circle-question">
+    Three possibilities:
+    1. **The sheet is empty** — TestFactors skips sheets with no data
+    2. **The sheet is classified as TOC / Legend / Boilerplate** — switch the Sheets tab filter to *"Show all (including non-testable)"*
+    3. **The sheet was excluded** — click *"Show excluded"* in the same filter
+
+    If none of those, refresh the workbook (`⋮ → Re-parse`). If it's still missing, the source `.xlsx` may be corrupted — try re-saving in Excel and re-uploading.
+  </Accordion>
+
+  <Accordion title="TestFactors is asking me 20+ questions — that seems like a lot" icon="message-question">
+    A high question count usually means your workbook uses conventions TestFactors hasn't learned from your organization yet. The good news: answer them once with **"Apply this to future workbooks"** at org scope, and the count will drop dramatically for the next upload.
+
+    The questions are also capped at 25 per workbook — so 25 is the worst case, not the average.
+  </Accordion>
+
+  <Accordion title="A column or row shows up but it shouldn't be in scope" icon="filter">
+    Use the per-sheet exclusion controls (see [Excluding sheets or columns](#excluding-sheets-or-columns)). Excluded items are kept visible but never feed into scenario generation.
+  </Accordion>
+
+  <Accordion title="The picklist values in a cell don't match my workbook" icon="list">
+    TestFactors links picklist cells to the master picklist sheet by **code**, **external code**, or **option ID** (case-insensitive). If a cell isn't linking:
+    1. Check the picklist exists in your workbook (look in the **Picklists** tab of the workbook detail)
+    2. Check the code in the cell matches one of the codes in the picklist
+    3. If your workbook stores picklists in a non-standard sheet, ask your Admin to teach TestFactors about it (one-time configuration)
+  </Accordion>
+
+  <Accordion title="I uploaded the wrong file" icon="trash">
+    Click the workbook row's **⋮ → Delete workbook**. Note: this also removes any scenarios, test cases, and defects generated from it. If you've already done significant work on it, consider re-uploading the correct file *as a new version* instead — that preserves everything.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Scenarios & Categories" icon="sitemap" href="/platform/scenarios-and-categories">
+    Once a workbook is uploaded, the AI generates scenarios from it. That's the next step.
+  </Card>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Promote stable workbook answers into your project's knowledge base so future uploads need fewer clarifications.
+  </Card>
+  <Card title="FactorBot" icon="bot" href="/knowledge-ai/factorbot">
+    Ask FactorBot in plain English: *"What does Iteration 2 mean on the Position Management sheet?"* — it reads your workbook for the answer.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/platform/quickstart">
+    Back to the 15-minute orientation if you got here without the rest of the context.
+  </Card>
+</CardGroup>

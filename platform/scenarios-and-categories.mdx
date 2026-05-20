@@ -1,33 +1,307 @@
 ---
 title: "Scenarios & Categories"
-description: "Organize what you want to test. Let the AI assistant draft scenarios from your workbook, then review and approve."
+description: "Organize what you want to test. Let the AI assistant generate a starter list of scenarios from your workbook in seconds — then refine, approve, and move on."
 icon: "sitemap"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**This is where most of the magic happens.** One click here turns a 200-row workbook into a structured, reviewed test plan in about 15 seconds.
 </Note>
 
 ## What this module does
 
-_To be written._
+A **scenario** is a thing you want to test — e.g. *"Hire a US employee into an active position"* or *"Terminate an employee with future-dated leave."* Scenarios are grouped into **categories** like *Hire*, *Termination*, *Job Change*, *Happy Path*, or *Negative / Validation*.
 
-## Who uses it
+This module gives you two superpowers:
 
-_To be written._
+1. **Generate scenarios with AI** — click a button, the AI reads your workbook and proposes 20–40 scenarios organized by category. You review, approve, edit, or reject.
+2. **Reuse scenarios across test cycles** — categories live at the project level. The same *"Hire"* category can appear in Cycle 1, Cycle 2, and a regression cycle — no duplication.
+
+You get two layers of categories, automatically:
+
+| Layer | Where it comes from | Examples |
+|---|---|---|
+| **Baseline** (10 universal categories, instant) | Built into TestFactors — present on every project | Happy Path · Negative / Validation · Permissions · Workflow / Approval · Integration · Edge Case · Data Variants · Audit · Concurrency · Mass Operations |
+| **Functional** (15–25 categories, 10–15 seconds) | AI reads your workbook and proposes them | Hire · Rehire · Termination · Promotion · Job Change · Pay Rate Change · Leave of Absence · Position Management · … |
+
+The functional categories are unique to your workbook — they reflect what *your* HR config actually does.
+
+---
+
+## Who uses this module
+
+| Role | Generate categories | Edit categories | Add scenarios | Approve / promote |
+|---|---|---|---|---|
+| **Project Manager+** | Yes | Yes | Yes | Yes |
+| **Test Manager / Coordinator** | Yes | Yes | Yes | Yes |
+| **Module Process Owner** | No | Limited | Yes | Yes |
+| **Developer / Tester** | No | No | Yes | No |
+| **Viewer** | No | No | No | No |
+
+<Tip>
+If the **+ Generate Categories** button is missing, your role doesn't include category generation. Ask your Project Manager.
+</Tip>
+
+---
 
 ## Before you start
 
-_To be written._
+You need:
 
-## Step-by-step
+- **A processed workbook** in this project. If you haven't uploaded one yet, see [Workbooks](/platform/workbooks).
+- **A test cycle picked.** Categories are scoped to a cycle — same category can be reused across cycles, but generation happens for one cycle at a time. If you have only one cycle, it's auto-selected.
+- **About 5 minutes** for the generation + your initial review.
 
-_To be written._
+---
+
+## Step-by-step: generate scenarios with the AI
+
+<Steps>
+  <Step title="Open the Scenarios tab in your project">
+    From the project's left sidebar, click **Scenarios**. You'll see categories grouped by SF module (Employee Central, Compensation, etc.).
+
+    <Frame caption="Scenarios tab with module groupings on the left and a category empty state on the right.">
+      ![Scenarios tab](/images/scenarios/01-scenarios-tab.png)
+    </Frame>
+  </Step>
+
+  <Step title="Pick a module">
+    On the left, click the SF module you want to work in (e.g. **Employee Central**). The right pane shows that module's categories. First time? It's empty — that's normal.
+
+    <Frame caption="Empty state for Employee Central module showing the central 'Generate Categories' call-to-action.">
+      ![Empty module state](/images/scenarios/02-empty-module.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click Generate Categories">
+    The empty state has a primary button: **Generate Categories**. Click it.
+
+    Within ~1 second you'll see **10 baseline categories** appear (Happy Path, Negative/Validation, etc.) — these are universal and come instantly.
+
+    Below them, a small progress banner appears:
+
+    > ⟳ AI is reading your workbook… Added 0 categories so far.
+
+    <Frame caption="Module pane immediately after clicking Generate: 10 baseline categories visible and a progress banner at the top.">
+      ![Generation in progress](/images/scenarios/03-generating.png)
+    </Frame>
+  </Step>
+
+  <Step title="Watch functional categories stream in">
+    Over the next 10–15 seconds, AI-generated functional categories appear one by one — Hire, Termination, Job Change, etc. The banner counter updates live.
+
+    Each AI-generated category has a small **[AI]** badge so you can tell them apart from baseline ones.
+
+    <Frame caption="Module pane with 28 categories total (10 baseline + 18 AI), each AI row marked with an [AI] badge.">
+      ![Generation complete](/images/scenarios/04-generated.png)
+    </Frame>
+
+    <Tip>
+      If you have no workbook knowledge yet (you uploaded a workbook but the parser found nothing testable), only the 10 baseline categories will appear, and you'll see a small message offering to upload a workbook or add categories manually.
+    </Tip>
+  </Step>
+
+  <Step title="Review the proposed categories">
+    For each category you have three choices:
+
+    - **Keep** (do nothing — it's already Active)
+    - **Edit** — rename, change description, change position
+    - **Demote** — hide it from this cycle without deleting (you can restore later by clicking Generate again)
+
+    <Frame caption="Category row with action menu open: Edit, Demote, Link to other cycles, Delete.">
+      ![Category row actions](/images/scenarios/05-category-actions.png)
+    </Frame>
+
+    <Note>
+      If you accidentally demote categories you wanted, just click **Generate Categories** again. TestFactors restores demoted categories in a single click (no AI tokens spent — it's free).
+    </Note>
+  </Step>
+
+  <Step title="Open a category to add or generate scenarios">
+    Click any category name. You land on the **Category detail view**, which lists scenarios in that category.
+
+    For each scenario you can:
+    - **Generate scenarios with AI** — same pattern as categories, but for individual scenarios. The AI proposes 5–15 scenarios per category in ~10 seconds.
+    - **+ New scenario** — write one manually
+    - **Reorder** scenarios with drag-and-drop
+
+    <Frame caption="Category detail showing 8 AI-generated scenarios and the central 'Generate Scenarios' button for adding more.">
+      ![Category detail view](/images/scenarios/06-category-detail.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**That's the core loop.** Once your categories and scenarios look right, the next step is generating test cases from them. See [Test Cases](/platform/test-cases).
+</Check>
+
+---
+
+## Refining AI output with chat
+
+Every generation surface in TestFactors has a chat panel on the right where you can refine the output in plain English. After categories or scenarios have generated, try:
+
+> *"Add more edge cases around international transfers"*
+>
+> *"Group the termination scenarios by reason code"*
+>
+> *"Skip the mass-operation scenarios for now — we'll handle those in Cycle 2"*
+>
+> *"The 'Hire' category is too broad — split it into 'New Hire' and 'Rehire'"*
+
+<Frame caption="Category detail with a chat panel open on the right; user has typed a refinement and the AI is proposing changes.">
+  ![Refinement chat panel](/images/scenarios/07-refinement-chat.png)
+</Frame>
+
+The AI proposes changes — you approve or reject each one before they take effect.
+
+---
+
+## Re-running the AI after the workbook changes
+
+If your workbook gets updated (new sheets, new fields, a corrected spec), you can re-run the AI to pick up the changes without losing your existing categories:
+
+<Steps>
+  <Step title="Open the module pane">
+    Click the module on the left of the Scenarios tab.
+  </Step>
+  <Step title="Click the Refresh menu">
+    Top-right of the module pane is a small menu: **↻ Refresh from workbook ▾**. Click it and choose **Re-run AI suggestions**.
+
+    <Frame caption="Refresh dropdown showing 'Re-run AI suggestions' option.">
+      ![Refresh menu](/images/scenarios/08-refresh-menu.png)
+    </Frame>
+  </Step>
+  <Step title="Confirm">
+    A dialog confirms what will happen:
+
+    > This will read the latest workbook knowledge and may add new functional categories on top of what's already here. Existing categories won't be removed or renamed.
+
+    Click **Re-run AI**.
+  </Step>
+  <Step title="Watch for new arrivals">
+    Same progress banner as the initial generation. When polling stops, a toast shows how many new categories were added (often 0–5; the AI dedupes against your existing list).
+  </Step>
+</Steps>
+
+---
+
+## Reusing categories across test cycles
+
+Categories aren't locked to one cycle — they're project-level entities you can link to as many cycles as you want.
+
+<Steps>
+  <Step title="Open the category">
+    Click the category name in any cycle.
+  </Step>
+  <Step title="Click Link to other cycles">
+    In the category's action menu, choose **Link to cycles…**. A multi-select picker shows every cycle in the project.
+
+    <Frame caption="Category 'Link to cycles' picker with three project cycles selectable.">
+      ![Link to cycles picker](/images/scenarios/09-link-to-cycles.png)
+    </Frame>
+  </Step>
+  <Step title="Pick the cycles">
+    Tick the cycles you want this category to appear in. The category (and any scenarios under it) become visible in those cycles too.
+
+    Each row shows a small badge: **Used in N cycles**.
+  </Step>
+  <Step title="Unlink when you don't need it">
+    To remove a category from a specific cycle (without deleting it from the project), use **Unlink from this cycle** from the same menu.
+  </Step>
+</Steps>
+
+<Tip>
+This is how you build a **regression cycle**: link every "stable" category from previous releases into it, then add only the new categories for what's changing in this release.
+</Tip>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Generate before you write" icon="wand-magic-sparkles">
+    Even if you know exactly which categories you want, generate first — the AI's proposals often surface categories you'd have missed (Concurrency, Mass Operations, Audit).
+  </Card>
+  <Card title="Don't overthink the first pass" icon="rabbit-running">
+    Demote what you don't need, keep what you do. You can re-generate any time. Spending 30 minutes "perfecting" the first pass is wasted effort.
+  </Card>
+  <Card title="Use the chat for bulk edits" icon="comments">
+    Asking *"merge the two Termination categories"* in chat is much faster than doing it manually in the UI.
+  </Card>
+  <Card title="Categories are reusable, scenarios less so" icon="recycle">
+    Link a category to a regression cycle freely. Reused scenarios are valuable too, but they often need cycle-specific tweaks — review before reuse.
+  </Card>
+  <Card title="Promote good rejections to feedback" icon="thumbs-down">
+    When you reject an AI-proposed category, take 5 seconds to type *why*. That feedback trains the AI to do better on your next project.
+  </Card>
+  <Card title="Cap your scope early" icon="boundary">
+    A cycle with 60 categories is usually too broad. Aim for 10–25 categories per cycle, each with 5–15 scenarios. Bigger than that = split into more cycles.
+  </Card>
+</CardGroup>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="The Generate Categories button is missing or greyed out" icon="lock">
+    Most likely your role doesn't include `scenario_categories:write`. Roles that *do*: Project Manager, Client Manager, Org Admin, Test Manager. Ask your Project Manager to update your role or to generate on your behalf.
+  </Accordion>
+
+  <Accordion title="I clicked Generate but only 10 categories appeared (no AI ones)" icon="circle-question">
+    This usually means TestFactors couldn't find functional context for this module in your workbook. Three things to check:
+
+    1. **Did your workbook actually upload successfully?** Open the Workbooks tab — the workbook should say "Ready" with a sheet count.
+    2. **Did the module get scanned?** In the workbook detail, the **Knowledge** tab should show extracted facts for this SF module.
+    3. **Is the module right?** If you tagged the workbook as "Compensation" but you're generating in "Employee Central," the AI has no source material. Check the workbook's **SF Module** tag.
+
+    Fix any of those, then click Generate again.
+  </Accordion>
+
+  <Accordion title="I see 'Categories already generated' when I click Generate" icon="check">
+    This is normal — TestFactors won't burn AI tokens re-running on a cycle+module that already has AI categories. Use **↻ Refresh from workbook → Re-run AI suggestions** instead to explicitly re-run.
+  </Accordion>
+
+  <Accordion title="Generation is stuck on 'AI is reading your workbook…'" icon="hourglass-half">
+    Typical generation takes 10–15 seconds, never more than 60. If it's longer:
+
+    1. **Refresh the page** — sometimes the progress banner is stale. Categories will be there.
+    2. **Try once more.** Click **Refresh from workbook → Re-run AI suggestions**.
+    3. **If it keeps stalling**, contact your Admin with the project name and timestamp.
+  </Accordion>
+
+  <Accordion title="I demoted a bunch of categories by mistake" icon="rotate-left">
+    Click **Generate Categories** again. TestFactors restores any demoted categories in this cycle+module in a single click — and shows a toast *"Reactivated N categories that were previously demoted."* No AI tokens are spent on the restore.
+  </Accordion>
+
+  <Accordion title="I want to delete a category, not demote it" icon="trash">
+    Open the category, click the **⋮** menu, choose **Delete**. Deletion is permanent and removes all scenarios under it. Use Demote instead if you might want it back.
+  </Accordion>
+
+  <Accordion title="The AI keeps proposing the same category name I rejected" icon="repeat">
+    Two things help:
+
+    1. **Demote (don't delete)** the unwanted category. Demoted rows are passed to the AI as "don't propose this name."
+    2. **Use the rejection feedback box** to say *why* — the AI uses this signal on the next run.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Workbooks" icon="book-open" href="/platform/workbooks">
+    Upload and review your workbook — categories generate from it.
+  </Card>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Next step: turn approved scenarios into specific test cases.
+  </Card>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Add domain knowledge so the AI generates better categories next time.
+  </Card>
+  <Card title="FactorBot" icon="bot" href="/knowledge-ai/factorbot">
+    Ask plain-English questions about why a category was proposed.
+  </Card>
+</CardGroup>

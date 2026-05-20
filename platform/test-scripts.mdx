@@ -1,33 +1,224 @@
 ---
 title: "Test Scripts"
-description: "Step-by-step instructions that your team (or automation) can follow to execute each test case."
+description: "Step-by-step instructions your team can follow to execute each test case — generated automatically from your approved test cases."
 icon: "scroll-text"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**Test scripts are the 'how to actually do it' layer.** Test cases say *what* to test; test scripts say *click here, type this, verify that*.
 </Note>
 
 ## What this module does
 
-_To be written._
+A test script is a numbered playbook a human tester (or an automation tool) follows to execute one test case. Each step says:
 
-## Who uses it
+1. **What to do** ("Open the Hire Wizard from the People dropdown")
+2. **What to enter** ("Use the test data shown below")
+3. **What to verify** ("Confirm the wizard advances to Step 2 of 5")
 
-_To be written._
+TestFactors generates scripts from your approved test cases, using:
+
+- The test case's **steps and expected results** as the skeleton
+- The test case's **test data** as concrete values
+- Your project's **script templates** for consistent tone and format
+- Any **automation hints** (selectors, URLs, API calls) configured for the SF module
+
+You can run scripts manually (a tester executes them in SuccessFactors) or feed them to your automation framework.
+
+---
+
+## Who uses this module
+
+| Role | Generate | Edit | Customize templates |
+|---|---|---|---|
+| **Test Manager** | Yes | Yes | Yes |
+| **Test Coordinator** | Yes | Yes | No |
+| **Tester** | Yes (regenerate own) | Yes | No |
+| **Developer** | Yes | Yes (with annotation) | No |
+| **Viewer** | No | No | No |
+
+---
 
 ## Before you start
 
-_To be written._
+You need:
 
-## Step-by-step
+- **Approved (Active) test cases**. See [Test Cases](/platform/test-cases).
+- *(Optional)* **A script template** if your organization uses one. Project Managers can configure templates per SF module. If none is configured, TestFactors uses a sensible default.
 
-_To be written._
+---
+
+## Step-by-step: generate a test script
+
+<Steps>
+  <Step title="Open the test case">
+    From the Test Cases tab, click an Active test case. The detail panel includes a **Scripts** tab.
+
+    <Frame caption="Test case detail with Scripts tab visible (empty on first open).">
+      ![Test case scripts tab](/images/test-scripts/01-scripts-tab.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click Generate Script">
+    The Scripts tab has a **+ Generate Script** button. Click it.
+
+    A side panel opens with options:
+
+    - **Template** — pick the project's template or "Default"
+    - **Audience** — *Manual tester* or *Automation framework*
+    - **Detail level** — *Concise* (~3–5 lines per step) or *Verbose* (full prose)
+
+    <Frame caption="Generate Script options panel showing template, audience, and detail level controls.">
+      ![Generate script options](/images/test-scripts/02-generate-options.png)
+    </Frame>
+  </Step>
+
+  <Step title="Generate">
+    Click **Generate**. The AI drafts the script in ~10–20 seconds. You'll see it appear step-by-step in real time (streaming).
+
+    <Frame caption="Script being generated, streaming new steps in real time.">
+      ![Script streaming](/images/test-scripts/03-streaming.png)
+    </Frame>
+  </Step>
+
+  <Step title="Review and edit">
+    Once complete, the script enters **Draft** state. Each step has:
+
+    - **Action** — what to do (with the right level of detail)
+    - **Data** — exact values to enter
+    - **Expected result** — what should happen
+    - **Annotation slot** — for tester notes during execution
+
+    Click any step to edit inline. Drag to reorder.
+
+    <Frame caption="Completed script with 8 steps in Draft state. One step is in inline-edit mode.">
+      ![Script draft](/images/test-scripts/04-script-draft.png)
+    </Frame>
+  </Step>
+
+  <Step title="Promote to Active">
+    Click **Promote to Active** in the top-right. The script is now ready for execution.
+
+    Active scripts appear in the **Test Execution** flow (next module).
+
+    <Frame caption="Script header showing Promote button and the version dropdown.">
+      ![Promote script](/images/test-scripts/05-promote.png)
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+**You have a runnable script.** Run it during the next test cycle — see [Test Execution](/platform/test-execution).
+</Check>
+
+---
+
+## Customizing script templates (Project Managers)
+
+If your team has specific conventions for how scripts should be written (tone, step numbering, screenshot requirements, etc.), set up a template once and every future script follows it.
+
+<Steps>
+  <Step title="Open project settings">
+    Settings → **Script Templates**.
+  </Step>
+  <Step title="Create or edit a template">
+    Click **+ New template** or pick an existing one to edit.
+
+    Fields:
+    - **Name** — *"EC Production Cutover"*, *"Sandbox Smoke Test"*, etc.
+    - **SF Module** — scope the template to a specific module, or "All modules"
+    - **Pre-amble** — text that appears at the top of every script (e.g. *"Run this in the QA sandbox only."*)
+    - **Step format** — choose from presets or define your own with placeholders like `{action}`, `{data}`, `{expected}`
+    - **Post-amble** — text at the end (e.g. *"Document any defects in Jira project EC-QA."*)
+  </Step>
+  <Step title="Save and set default">
+    Tick **Set as default for this SF module** if you want every script auto-generated for that module to use this template.
+  </Step>
+</Steps>
+
+<Frame caption="Script template editor with pre-amble, step format, and post-amble fields.">
+  ![Script template editor](/images/test-scripts/06-template-editor.png)
+</Frame>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Generate for one cycle at a time" icon="cycle">
+    Don't generate all scripts at once at project start — your test cases will evolve. Generate scripts when you're about a week from executing.
+  </Card>
+  <Card title="Pick the right detail level" icon="sliders">
+    Concise for experienced testers who know SF well; Verbose for new hires or contractors.
+  </Card>
+  <Card title="Regenerate after test case edits" icon="refresh">
+    If you edit a test case, the existing script doesn't auto-update — regenerate. There's a "regenerate from current test case" button.
+  </Card>
+  <Card title="Use one template per SF module" icon="layers">
+    Tone and detail level vary by module. EC needs more steps than Recruiting. Set defaults per module.
+  </Card>
+  <Card title="Add screenshots in execution, not generation" icon="camera">
+    Don't ask the AI to include "(take screenshot)" — testers add them naturally during execution. Keeps the script clean.
+  </Card>
+  <Card title="Document gotchas in the template, not each script" icon="lightbulb">
+    *"Always disable browser autofill before this section"* → put it in the template pre-amble once.
+  </Card>
+</CardGroup>
+
+---
+
+## Script states
+
+| State | Meaning | Visible in execution? |
+|---|---|---|
+| **Draft** | Just generated, not yet promoted | No |
+| **Active** | Promoted, ready to execute | Yes |
+| **Archived** | Removed from active use | No |
+| **Rejected** | Draft was rejected; reason kept for AI training | No |
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="The script is too verbose / too terse" icon="text-size">
+    Regenerate with a different **Detail level** (Concise vs Verbose). Or edit the project template's step format to your team's preferred density.
+  </Accordion>
+
+  <Accordion title="The test data in the script doesn't match the test case" icon="link-slash">
+    The script was generated before you edited the test case. Click **Regenerate from current test case** in the script header.
+  </Accordion>
+
+  <Accordion title="Steps mention SuccessFactors paths or buttons that don't exist" icon="map-pin">
+    The AI relies on your knowledge wiki for accurate UI paths. If the wiki doesn't describe your current SF version's navigation, the AI may use generic instructions. Add a short note to the wiki documenting the actual menu path, then regenerate.
+  </Accordion>
+
+  <Accordion title="My team uses a different format for scripts (e.g. ALM, Tricentis)" icon="file-export">
+    Set up an **export template** in project settings → Scripts → Export Formats. TestFactors can render any active script in your tool's format (CSV columns, XML, ALM-flavored).
+  </Accordion>
+
+  <Accordion title="Generation failed mid-stream" icon="triangle-exclamation">
+    The partial script is saved in Draft. Either:
+    1. Edit the incomplete steps manually
+    2. Click **Resume generation** to let the AI finish from where it stopped
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Test Cases" icon="list-checks" href="/platform/test-cases">
+    Scripts are generated from test cases — start there.
+  </Card>
+  <Card title="Test Execution" icon="play" href="/platform/test-execution">
+    Run your active scripts during a test cycle.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Log defects discovered while executing scripts.
+  </Card>
+  <Card title="Knowledge Wiki" icon="library" href="/knowledge-ai/knowledge-wiki">
+    Document SF navigation paths so scripts are accurate.
+  </Card>
+</CardGroup>

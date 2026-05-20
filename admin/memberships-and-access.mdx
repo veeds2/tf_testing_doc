@@ -5,29 +5,311 @@ icon: "users"
 ---
 
 <Note>
-**Coming soon.** This guide is on the documentation roadmap. See [Quickstart](/platform/quickstart) for the basics in the meantime.
+**This is the most common admin task.** If you're an Org Admin, Client Manager, or Project Manager, you'll use this module weekly to bring new teammates onto projects.
 </Note>
 
 ## What this module does
 
-_To be written._
+TestFactors organizes access in a hierarchy: **Organization → Client → Project**. People (called **members**) join at one or more of these levels with a **role** that determines what they can do.
 
-## Who uses it
+A few key ideas:
 
-_To be written._
+1. **Membership is per-scope** — you can be an Org Admin on Org A and just a Tester on a Project under Org B. They're independent.
+2. **Authority cascades down** — an Org Admin automatically has Admin rights on every Client and every Project under that Org.
+3. **Authority never cascades up** — a Tester on Project X cannot see anything about the parent Client or Org.
+4. **Invitations work for any email** — invite people who don't have TestFactors accounts yet; they get an email and accept on first sign-in.
 
-## Before you start
+This module is where you do all of that.
 
-_To be written._
+---
 
-## Step-by-step
+## The role system
 
-_To be written._
+TestFactors has a rich role catalog — but you'll usually only use a handful. Here's the cheat sheet:
+
+| Role | Where it lives | What it does |
+|---|---|---|
+| **Platform Admin** | Whole platform | Manages the entire TestFactors deployment. Very rare — usually 1–3 people per company. |
+| **Org Admin** | Organization | Full administrator of an organization. Manages settings, billing context, all clients/projects under it. |
+| **Client Manager** | Client | Manages a client and everything under it. Day-to-day decision-maker for one client. |
+| **Project Manager** | Project | Manages one project: members, scope, cycles, settings. |
+| **Test Manager** | Client or Project | Owns the testing strategy. Approves scenarios/test cases, assigns executions, owns defect triage. |
+| **Test Coordinator** | Client or Project | Day-to-day testing operations. Assigns scripts, tracks progress, signs off cycles. |
+| **Module Process Owner** | Client or Project | Subject-matter expert for one SF module (e.g. *Comp lead*, *EC lead*). Reviews and approves module-scoped work. |
+| **Tester** | Client or Project | Executes assigned test scripts. Logs defects. Proposes test cases. |
+| **Developer / Consulting Developer** | Client or Project | Fixes defects, verifies tests against code. Read-only access to most other things. |
+| **Support Staff** | Org / Client / Project | Read-only with light editing on some surfaces. Good for sponsors, observers, finance. |
+| **Viewer** | Org / Client / Project | Read-only across everything in scope. |
+
+<Tip>
+**Don't memorize the whole list.** For 95% of cases you'll use: **Project Manager**, **Test Coordinator**, **Tester**, **Developer**, and **Viewer**. Reach for the others only when you need them.
+</Tip>
+
+### Authority ranking (briefly)
+
+Roles have a rank (0–100). A role with rank X can manage members of rank X or lower. You **cannot** promote someone to a role higher than your own — TestFactors prevents this server-side.
+
+| Role | Rank |
+|---|---|
+| Platform Admin | 100 |
+| Org Admin | 80 |
+| Client Manager | 70 |
+| Project Manager | 60 |
+| Test Manager | 50 |
+| Support Staff | 40 |
+| Developer / Consulting Developer | 30 |
+| Tester / Test Coordinator / Module Process Owner | 20 |
+| Viewer | 0 |
+
+You'll see this ranking respected automatically — the role dropdown won't show options above your authority.
+
+---
+
+## Step-by-step: invite a teammate to a project
+
+<Steps>
+  <Step title="Open the project you want to invite into">
+    Navigate to the project. Bottom-left → **Settings** → **Members**.
+
+    <Frame caption="Project Settings page with Members tab selected showing current members and pending invitations.">
+      ![Project Members page](/images/memberships/01-project-members.png)
+    </Frame>
+  </Step>
+
+  <Step title="Click + Add Member">
+    Top-right of the Members table. A side panel opens.
+  </Step>
+
+  <Step title="Enter their email and pick a role">
+    Two fields:
+
+    - **Email** — the email of the person to invite
+    - **Role** — pick from the dropdown (Tester, Developer, Test Coordinator, etc.)
+
+    <Frame caption="Add Member panel with email and role fields and an Invite button.">
+      ![Add member panel](/images/memberships/02-add-member.png)
+    </Frame>
+
+    <Tip>
+      **The role you pick should match what they'll actually do** — not their job title elsewhere. A senior consultant who's just observing this project should be Viewer, not Project Manager.
+    </Tip>
+  </Step>
+
+  <Step title="Click Invite">
+    Two outcomes:
+
+    - **Email matches an existing TestFactors user** → they're added immediately to the project; they'll see it on their next login.
+    - **Email is brand new** → an invitation is sent. They click the link in the email, sign up (or sign in if they already have a Testfactors account on a different email), and are added automatically.
+
+    Either way, you see a confirmation.
+
+    <Frame caption="Confirmation toast: 'Maria Garcia added as Tester' or 'Invitation sent to newhire@example.com'.">
+      ![Invite confirmation](/images/memberships/03-invite-confirmation.png)
+    </Frame>
+  </Step>
+</Steps>
+
+---
+
+## Changing someone's role
+
+<Steps>
+  <Step title="Find them in the Members list">
+    Project Settings → Members. Each row shows name, email, current role, and join date.
+  </Step>
+  <Step title="Click the role dropdown">
+    The role column is editable inline. Pick the new role.
+
+    <Frame caption="Member row with role dropdown open showing all valid role options.">
+      ![Change role dropdown](/images/memberships/04-change-role.png)
+    </Frame>
+  </Step>
+  <Step title="Confirm if prompted">
+    For role *demotions*, you may see a confirmation. For *promotions* up to your own authority, the change is immediate.
+
+    If you try to promote someone above your own rank, you'll see an error: *"You can't grant a role higher than your own."* This is by design.
+  </Step>
+</Steps>
+
+---
+
+## Removing a member
+
+<Steps>
+  <Step title="Find them in the Members list">
+    Same place as above.
+  </Step>
+  <Step title="Click the ⋮ menu → Remove">
+    A confirmation dialog asks if you're sure.
+
+    <Frame caption="Member row with action menu open showing the Remove option in red.">
+      ![Remove member](/images/memberships/05-remove-member.png)
+    </Frame>
+  </Step>
+  <Step title="Confirm">
+    The member loses access to this project immediately. Their **historical activity remains** — test executions they ran, defects they logged, comments they made all stay attributed to them. They just can't take new actions.
+
+    <Warning>
+      If you're the **only admin** on a project, you can't remove yourself. Promote someone else to admin first.
+    </Warning>
+  </Step>
+</Steps>
+
+---
+
+## Pending invitations
+
+Invitations to email addresses that aren't TestFactors users yet show as **Pending** in the Members list.
+
+For each pending invitation you can:
+
+- **Resend** the invitation email (useful if it went to spam or was missed)
+- **Revoke** the invitation (the link in the original email stops working)
+- **Copy the invite link** to share via Slack/Teams
+
+<Frame caption="Pending invitations list showing two invitations with Resend / Revoke / Copy-link actions.">
+  ![Pending invitations](/images/memberships/06-pending-invitations.png)
+</Frame>
+
+Invitations expire after 14 days. Expired invitations need to be re-sent; the original link can't be re-used.
+
+---
+
+## Managing access at higher scopes
+
+The same pattern works at **Client** and **Organization** scope:
+
+- **Client members** → Client Settings → Members. Granted users see every Project under that Client.
+- **Org members** → Org Settings → Members. Granted users see every Client and every Project under that Org.
+
+Use the higher scopes for:
+
+- **Org Admin** — your TestFactors champion who owns the platform for your company
+- **Client Manager** — the lead for one customer engagement (often consulting firms have one per client)
+- **Support Staff at Org scope** — your finance person who needs read access but no editing
+
+<Frame caption="Org Settings with Members tab showing org-scope memberships.">
+  ![Org members](/images/memberships/07-org-members.png)
+</Frame>
+
+---
+
+## The People panel — see who has access to what
+
+The People panel shows the full access tree for a specific person across your visible scope. Use it for:
+
+- **Auditing access** — "Where exactly does Maria have access?"
+- **Bulk assignment** — assign her to multiple projects at once
+- **Quick removal** — see and revoke all her access in one place
+
+<Steps>
+  <Step title="Find the person">
+    Org Settings → People (or click anyone's avatar from any members list).
+  </Step>
+  <Step title="View the tree">
+    You see a tree:
+
+    ```
+    Acme (Org Admin)
+    ├── Acme Q2 Implementation (inherited)
+    │   ├── Project Alpha (Project Manager)
+    │   └── Project Beta — no membership [+ Assign]
+    └── Acme Compensation Refresh (Client Manager)
+        ├── Project Comp-1 (inherited)
+        └── Project Comp-2 (inherited)
+    ```
+
+    "+ Assign" appears next to any scope where you have authority to add them.
+
+    <Frame caption="People panel showing one user's full access tree with assigned and unassigned scopes.">
+      ![People panel](/images/memberships/08-people-panel.png)
+    </Frame>
+  </Step>
+  <Step title="Click + Assign on any unassigned node">
+    Pick a role from the dropdown. The membership is created immediately.
+  </Step>
+</Steps>
+
+---
 
 ## Tips
 
-_To be written._
+<CardGroup cols={2}>
+  <Card title="Default new members to Tester or Viewer" icon="user-shield">
+    Easy to upgrade later if they need more. Easy to demote causes friction.
+  </Card>
+  <Card title="Avoid Project Manager for everyone" icon="crown">
+    A project with 5 Project Managers and 0 Testers gets nothing done. One PM per project is usually right.
+  </Card>
+  <Card title="Use Org-scope membership for cross-project people" icon="layers">
+    Your QA director shouldn't be invited 12 times to 12 projects — one Org Admin or Org Support Staff membership covers everything.
+  </Card>
+  <Card title="Review access quarterly" icon="calendar-check">
+    Half-yearly audit: open each project's Members list, remove anyone no longer involved. Stale access is a security risk.
+  </Card>
+  <Card title="Resend invitations after 3 days" icon="bell">
+    Most are missed because of spam filters or busy inboxes. A friendly resend works wonders.
+  </Card>
+  <Card title="Don't role-cheat" icon="ban">
+    Giving someone Project Manager because "Tester doesn't let them see defects" is wrong — Testers can see defects. Talk to your TestFactors champion if a role feels too restrictive.
+  </Card>
+</CardGroup>
+
+---
 
 ## Troubleshooting
 
-_To be written._
+<AccordionGroup>
+  <Accordion title="The role I want to assign isn't in the dropdown" icon="lock">
+    The role is higher than your own rank. You can't grant roles above your authority. Two options:
+
+    1. Ask someone with higher authority (Client Manager or Org Admin) to make the assignment
+    2. Pick a lower role that gets the person started; they can be promoted later
+  </Accordion>
+
+  <Accordion title="I removed someone, then realized I shouldn't have" icon="rotate-left">
+    Just invite them again with the same email. They're added back immediately with the role you pick. Their historical contributions are preserved — nothing was deleted.
+  </Accordion>
+
+  <Accordion title="My invitation says 'Expired'" icon="clock">
+    Click **Resend** to generate a fresh invitation (new 14-day expiry). The recipient gets a new email; the old link stops working.
+  </Accordion>
+
+  <Accordion title="I want to bulk-add people from a CSV" icon="upload">
+    Today it's one-at-a-time in the UI. For larger onboarding (10+ people), ask your Admin — they have access to a bulk import via the API. Otherwise, the People panel makes one-at-a-time fast.
+  </Accordion>
+
+  <Accordion title="I'm the only admin on this project and I can't remove myself" icon="circle-info">
+    By design — leaves the project without an admin. Promote someone else to Project Manager first, then you can leave.
+  </Accordion>
+
+  <Accordion title="A teammate says they can't see something I can" icon="eye">
+    Three checks:
+    1. Are they a member of the same project/client/org? Check Members list.
+    2. Is their role sufficient? Compare with the role table at the top of this guide.
+    3. Is their membership *Active*? Sometimes memberships get deactivated — toggle in the People panel.
+  </Accordion>
+
+  <Accordion title="I want to revoke access without removing membership history" icon="user-clock">
+    Edit the member row → **Deactivate** (instead of Remove). They lose access immediately but their row stays in the Members list with an inactive badge. Reactivate any time.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Settings" icon="settings" href="/admin/settings">
+    Configure org/client/project-level preferences your members will work with.
+  </Card>
+  <Card title="Quickstart" icon="rocket" href="/platform/quickstart">
+    Onboarding a new teammate? Send them the Quickstart guide first.
+  </Card>
+  <Card title="Test Execution" icon="play" href="/platform/test-execution">
+    Assigned executions show up here once you've invited testers.
+  </Card>
+  <Card title="Defects" icon="bug" href="/platform/defects">
+    Defect routing rules use membership info — keep memberships accurate.
+  </Card>
+</CardGroup>
