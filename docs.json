@@ -70,12 +70,7 @@
     ]
   },
   "navbar": {
-    "links": [],
-    "primary": {
-      "type": "button",
-      "label": "Sign in",
-      "href": "https://auth.testfactors.com"
-    }
+    "links": []
   },
   "footer": {
     "socials": {
